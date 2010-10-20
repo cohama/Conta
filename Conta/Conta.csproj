@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2747198A-C37B-4BD8-B8C4-A45B3AA7EA83}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Conta</RootNamespace>
+    <AssemblyName>Conta</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Visualize, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Visualize\bin\Debug\Visualize.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArrowDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArrowDialog.Designer.cs">
+      <DependentUpon>ArrowDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ContaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ContaForm.Designer.cs">
+      <DependentUpon>ContaForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CrossViewColorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CrossViewColorDialog.Designer.cs">
+      <DependentUpon>CrossViewColorDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSeeker.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ArrowDialog.resx">
+      <DependentUpon>ArrowDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ContaForm.resx">
+      <DependentUpon>ContaForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrossViewColorDialog.resx">
+      <DependentUpon>CrossViewColorDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwitchButton.resx">
+      <DependentUpon>SwitchButton.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="SwitchButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Colorbar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Expand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorContour.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorVector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorVector_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorContour_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorLine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorLine_Selected.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Resources\ImageListExpand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+    <None Include="Resources\Save.bmp" />
+    <None Include="Resources\ToCenter.png" />
+    <None Include="Resources\CrossView_Selected.png" />
+    <None Include="Resources\CrossView.png" />
+    <None Include="Resources\TriangleArrow.png" />
+    <None Include="Resources\LineArrow.png" />
+    <None Include="Resources\GridPoint_Selected.png" />
+    <None Include="Resources\GridPoint.png" />
+    <None Include="Resources\Edit.png" />
+    <None Include="Resources\Reopen.png" />
+    <None Include="Resources\RightButton.png" />
+    <None Include="Resources\LeftButton.png" />
+    <None Include="Resources\Redraw.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
