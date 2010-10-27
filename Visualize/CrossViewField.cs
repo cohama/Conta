@@ -19,12 +19,20 @@ namespace Visualization
 			this.Setting = new CrossViewSetting();
 		}
 
-		public override void DrawTo( Bitmap bmp, DataSheet data )
+		public override void DrawTo( Bitmap bmp, IDataSheet data )
 		{
 			if( !this.Setting.Show )
 			{
 				return;
 			}
+			if( !this.Setting.IsLengthFixed )
+			{
+				double absMax = (Math.Abs( data.MaxZ ) > Math.Abs( data.MinZ ))	? Math.Abs( data.MaxZ )
+																				: Math.Abs( data.MinZ );
+				if( absMax == 0 ) absMax = 1;
+				this.Setting.ReferredLength = absMax;
+			}
+
 			Graphics g = Graphics.FromImage( bmp );
 
 			int mgn = Visualize.BmpMargin;
@@ -37,9 +45,6 @@ namespace Visualization
 			Pen axisPen = new Pen( Setting.AxisColor, Setting.AxisWidth );
 
 			g.DrawRectangle( axisPen, mgn, mgn, bmp.Width-2*mgn-1, bmp.Height-2*mgn-1 );
-			double absMax = (Math.Abs( data.MaxValue ) > Math.Abs( data.MinValue ))	? Math.Abs( data.MaxValue )
-																					: Math.Abs( data.MinValue );
-			if( absMax == 0 ) absMax = 1;
 
 			if( Setting.ReferenceI >= data.Columns ) Setting.ReferenceI = data.Columns - 1;
 			if( Setting.ReferenceJ >= data.Rows ) Setting.ReferenceJ = data.Rows - 1;
@@ -50,10 +55,10 @@ namespace Visualization
 				g.DrawLine( axisPen, mgn, mgn+y, bmp.Width-mgn-1, mgn+y );
 				Point[] pt = new Point[data.Columns];
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetV ) 
-																	: new Func<int, int, double>( data.GetScalar );
+																	: new Func<int, int, double>( data.GetZ );
 				for( int i=0; i<data.Columns; i++ )
 				{
-					int h = (int)(value( i, Setting.ReferenceJ )/absMax*Setting.Scale + 0.5);
+					int h = (int)(value( i, Setting.ReferenceJ )/this.Setting.ReferredLength*Setting.Scale + 0.5);
 					int x = (int)(i*unitX + 0.5);
 					pt[i] = new Point( mgn+x, mgn+y-h ); 
 				}
@@ -72,10 +77,10 @@ namespace Visualization
 				g.DrawLine( axisPen, mgn + x, mgn, mgn + x, bmp.Height - mgn );
 				Point[] pt = new Point[data.Rows];
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetU ) 
-																	: new Func<int, int, double>( data.GetScalar );
+																	: new Func<int, int, double>( data.GetZ );
 				for( int j=0; j<data.Rows; j++ )
 				{
-					int h = (int)(value( Setting.ReferenceI, j )/absMax*Setting.Scale + 0.5);
+					int h = (int)(value( Setting.ReferenceI, j )/this.Setting.ReferredLength*Setting.Scale + 0.5);
 					int y = (int)(bmp.Height - 2*mgn - 1 - j*unitY + 0.5);
 					pt[j] = new Point( mgn+x+h, mgn+y );
 				}

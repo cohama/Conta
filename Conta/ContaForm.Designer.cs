@@ -32,6 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager( typeof( ContaForm ) );
 			this.panelSettings = new System.Windows.Forms.Panel();
 			this.groupBoxCrossView = new System.Windows.Forms.GroupBox();
+			this.checkBoxRefCrossView = new System.Windows.Forms.CheckBox();
+			this.textBoxRefCrossView = new System.Windows.Forms.TextBox();
 			this.buttonToCenter = new System.Windows.Forms.Button();
 			this.buttonColorSet = new System.Windows.Forms.Button();
 			this.labelScale = new System.Windows.Forms.Label();
@@ -44,6 +46,8 @@
 			this.numericUpDownY = new System.Windows.Forms.NumericUpDown();
 			this.numericUpDownX = new System.Windows.Forms.NumericUpDown();
 			this.groupBoxVector = new System.Windows.Forms.GroupBox();
+			this.checkBoxRefVector = new System.Windows.Forms.CheckBox();
+			this.textBoxRefVectorLength = new System.Windows.Forms.TextBox();
 			this.checkBoxFixedBound = new System.Windows.Forms.CheckBox();
 			this.labelOffset = new System.Windows.Forms.Label();
 			this.labelInterval = new System.Windows.Forms.Label();
@@ -117,6 +121,8 @@
 			// 
 			// groupBoxCrossView
 			// 
+			this.groupBoxCrossView.Controls.Add( this.checkBoxRefCrossView );
+			this.groupBoxCrossView.Controls.Add( this.textBoxRefCrossView );
 			this.groupBoxCrossView.Controls.Add( this.buttonToCenter );
 			this.groupBoxCrossView.Controls.Add( this.buttonColorSet );
 			this.groupBoxCrossView.Controls.Add( this.labelScale );
@@ -129,12 +135,31 @@
 			this.groupBoxCrossView.Controls.Add( this.numericUpDownY );
 			this.groupBoxCrossView.Controls.Add( this.numericUpDownX );
 			this.groupBoxCrossView.Dock = System.Windows.Forms.DockStyle.Top;
-			this.groupBoxCrossView.Location = new System.Drawing.Point( 3, 376 );
+			this.groupBoxCrossView.Location = new System.Drawing.Point( 3, 395 );
 			this.groupBoxCrossView.Name = "groupBoxCrossView";
-			this.groupBoxCrossView.Size = new System.Drawing.Size( 209, 92 );
+			this.groupBoxCrossView.Size = new System.Drawing.Size( 209, 118 );
 			this.groupBoxCrossView.TabIndex = 12;
 			this.groupBoxCrossView.TabStop = false;
 			this.groupBoxCrossView.Text = "断面分布図の設定";
+			// 
+			// checkBoxRefCrossView
+			// 
+			this.checkBoxRefCrossView.AutoSize = true;
+			this.checkBoxRefCrossView.Location = new System.Drawing.Point( 14, 93 );
+			this.checkBoxRefCrossView.Name = "checkBoxRefCrossView";
+			this.checkBoxRefCrossView.Size = new System.Drawing.Size( 93, 16 );
+			this.checkBoxRefCrossView.TabIndex = 12;
+			this.checkBoxRefCrossView.Text = "基準値を指定";
+			this.checkBoxRefCrossView.UseVisualStyleBackColor = true;
+			this.checkBoxRefCrossView.CheckedChanged += new System.EventHandler( this.checkBoxRefCrossView_CheckedChanged );
+			// 
+			// textBoxRefCrossView
+			// 
+			this.textBoxRefCrossView.Location = new System.Drawing.Point( 118, 91 );
+			this.textBoxRefCrossView.Name = "textBoxRefCrossView";
+			this.textBoxRefCrossView.ReadOnly = true;
+			this.textBoxRefCrossView.Size = new System.Drawing.Size( 83, 19 );
+			this.textBoxRefCrossView.TabIndex = 11;
 			// 
 			// buttonToCenter
 			// 
@@ -180,7 +205,7 @@
 			// checkBoxVectorMode
 			// 
 			this.checkBoxVectorMode.AutoSize = true;
-			this.checkBoxVectorMode.Location = new System.Drawing.Point( 14, 70 );
+			this.checkBoxVectorMode.Location = new System.Drawing.Point( 14, 71 );
 			this.checkBoxVectorMode.Name = "checkBoxVectorMode";
 			this.checkBoxVectorMode.Size = new System.Drawing.Size( 88, 16 );
 			this.checkBoxVectorMode.TabIndex = 6;
@@ -264,6 +289,8 @@
 			// 
 			// groupBoxVector
 			// 
+			this.groupBoxVector.Controls.Add( this.checkBoxRefVector );
+			this.groupBoxVector.Controls.Add( this.textBoxRefVectorLength );
 			this.groupBoxVector.Controls.Add( this.checkBoxFixedBound );
 			this.groupBoxVector.Controls.Add( this.labelOffset );
 			this.groupBoxVector.Controls.Add( this.labelInterval );
@@ -273,10 +300,29 @@
 			this.groupBoxVector.Dock = System.Windows.Forms.DockStyle.Top;
 			this.groupBoxVector.Location = new System.Drawing.Point( 3, 301 );
 			this.groupBoxVector.Name = "groupBoxVector";
-			this.groupBoxVector.Size = new System.Drawing.Size( 209, 75 );
+			this.groupBoxVector.Size = new System.Drawing.Size( 209, 94 );
 			this.groupBoxVector.TabIndex = 11;
 			this.groupBoxVector.TabStop = false;
 			this.groupBoxVector.Text = "ベクトルの設定";
+			// 
+			// checkBoxRefVector
+			// 
+			this.checkBoxRefVector.AutoSize = true;
+			this.checkBoxRefVector.Location = new System.Drawing.Point( 14, 71 );
+			this.checkBoxRefVector.Name = "checkBoxRefVector";
+			this.checkBoxRefVector.Size = new System.Drawing.Size( 93, 16 );
+			this.checkBoxRefVector.TabIndex = 10;
+			this.checkBoxRefVector.Text = "基準値を指定";
+			this.checkBoxRefVector.UseVisualStyleBackColor = true;
+			this.checkBoxRefVector.CheckedChanged += new System.EventHandler( this.checkBoxRefVector_CheckedChanged );
+			// 
+			// textBoxRefVectorLength
+			// 
+			this.textBoxRefVectorLength.Location = new System.Drawing.Point( 118, 69 );
+			this.textBoxRefVectorLength.Name = "textBoxRefVectorLength";
+			this.textBoxRefVectorLength.ReadOnly = true;
+			this.textBoxRefVectorLength.Size = new System.Drawing.Size( 83, 19 );
+			this.textBoxRefVectorLength.TabIndex = 9;
 			// 
 			// checkBoxFixedBound
 			// 
@@ -807,5 +853,9 @@
 		private System.Windows.Forms.Button buttonSaveBmp;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+		private System.Windows.Forms.CheckBox checkBoxRefCrossView;
+		private System.Windows.Forms.TextBox textBoxRefCrossView;
+		private System.Windows.Forms.CheckBox checkBoxRefVector;
+		private System.Windows.Forms.TextBox textBoxRefVectorLength;
 	}
 }

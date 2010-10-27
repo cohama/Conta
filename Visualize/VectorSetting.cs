@@ -35,6 +35,19 @@ namespace Visualization
 		float _lineWidth;
 		#endregion
 
+		/// <summary>
+		/// ベクトルを描画する際の基準となる長さを取得、設定します。
+		/// </summary>
+		public double ReferredLength { get; set; }
+
+		/// <summary>
+		/// ベクトルを描画する際に、長さの基準値を設定するかどうかを取得、設定します。
+		/// </summary>
+		public bool IsLengthFixed { get; set; }
+
+		/// <summary>
+		/// ベクトルの線の太さを取得、設定します。
+		/// </summary>
 		public float LineWidth
 		{
 			get { return this._lineWidth; }
@@ -163,6 +176,7 @@ namespace Visualization
 		/// </summary>
 		public VectorSetting()
 		{
+			this.ReferredLength = 1.0;
 			this.Interval = 1;
 			this.Offset = 0;
 			this.FixedBound = false;

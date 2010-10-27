@@ -20,6 +20,7 @@ namespace Visualization
 		Graphics G;
 		readonly double maxValue;
 		readonly double minValue;
+		readonly double refValue;
 		readonly double unitLength;
 		readonly double magnitude;
 		readonly double tipMagnitude;
@@ -41,8 +42,9 @@ namespace Visualization
 
 			this.maxValue = MaxValue;
 			this.minValue = MinValue;
+			this.refValue = arrow.ReferredLength;
 			this.unitLength = 500/20.0;
-			this.magnitude = this.Arrow.Length/100.0/this.maxValue*this.unitLength*2;
+			this.magnitude = this.Arrow.Length/100.0/this.refValue*this.unitLength*2;
 			this.tipMagnitude = this.Arrow.TipLength/100.0*this.magnitude;
 			this.halfTipAngle = arrow.TipAngle/180.0*Math.PI/2.0;
 			this.tan_halfTipAngle = Math.Tan( this.halfTipAngle );

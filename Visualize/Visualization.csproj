@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NonuniformDataSheet.cs" />
     <Compile Include="ContourSetting.cs" />
     <Compile Include="CrossViewField.cs" />
     <Compile Include="CrossViewSetting.cs" />

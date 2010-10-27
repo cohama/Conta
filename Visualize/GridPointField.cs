@@ -15,7 +15,7 @@ namespace Visualization
 			this.Setting = new GridPointSetting();
 		}
 
-		public override void DrawTo( Bitmap bmp, DataSheet data )
+		public override void DrawTo( Bitmap bmp, IDataSheet data )
 		{
 			if( !Setting.Show )
 			{
