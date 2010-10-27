@@ -12,6 +12,16 @@ namespace Visualization
 	public class CrossViewSetting : FieldSetting
 	{
 		/// <summary>
+		/// 分布を表示する際に、長さの基準値を設定するかどうかを取得、設定します。
+		/// </summary>
+		public bool IsLengthFixed { get; set; }
+
+		/// <summary>
+		/// 断面分布を描画する際の基準となる長さを取得、設定します。
+		/// </summary>
+		public double ReferredLength { get; set; }
+
+		/// <summary>
 		/// x 方向の参照点のインデックスを取得、設定します。
 		/// </summary>
 		public int ReferenceI { get; set; }
@@ -76,6 +86,8 @@ namespace Visualization
 
 		public CrossViewSetting()
 		{
+			this.ReferredLength = 1.0;
+
 			this.AxisColor = Color.Black;
 			this.PlotColor = Color.White;
 			this.PlotFrameColor = Color.Black;

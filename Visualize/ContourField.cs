@@ -18,7 +18,7 @@ namespace Visualization
 			this.Setting = new ContourSetting();
 		}
 
-		public override void DrawTo( Bitmap bmp, DataSheet data )
+		public override void DrawTo( Bitmap bmp, IDataSheet data )
 		{
 			if( !this.Setting.Show )
 			{
@@ -26,8 +26,8 @@ namespace Visualization
 			}
 			if( this.Setting.AutoScaleColor )
 			{
-				this.Setting.MaxValue = data.MaxValue;
-				this.Setting.MinValue = data.MinValue;
+				this.Setting.MaxValue = data.MaxZ;
+				this.Setting.MinValue = data.MinZ;
 			}
 			this.Setting.PropertyChanged = false;
 			double max = this.Setting.MaxValue;
@@ -52,7 +52,7 @@ namespace Visualization
 				double newValue = 0;	// バイリニア補間されたデータ
 				int index = 0;			// バイト配列アクセス用
 				int hue = 0;			// 色相
-
+				
 				for( int j=0; j<inH-1; j++ )
 				{
 					index = 4*(((inH+Visualize.BmpMargin)-1-j)*bmp.Width + Visualize.BmpMargin);
@@ -63,10 +63,10 @@ namespace Visualization
 						// bilinear interporation
 						double x = xRate*i;
 						int k = (int)x;
-						newValue = ((k+1)-x)*((l+1)-y)*data.GetScalar( k, l )
-								 + ((k+1)-x)*(y-l)    *data.GetScalar( k, l+1 )
-								 + (x-k)    *((l+1)-y)*data.GetScalar( k+1, l )
-								 + (x-k)    *(y-l)    *data.GetScalar( k+1, l+1 );
+						newValue = ((k+1)-x)*((l+1)-y)*data.GetZ( k, l )
+								 + ((k+1)-x)*(y-l)    *data.GetZ( k, l+1 )
+								 + (x-k)    *((l+1)-y)*data.GetZ( k+1, l )
+								 + (x-k)    *(y-l)    *data.GetZ( k+1, l+1 );
 						hue = (int)((newValue - min) / (max - min) * 360.0);
 						if( hue >= 360 ) hue = 359;
 						if( hue < 0 ) hue = 0;
@@ -76,8 +76,8 @@ namespace Visualization
 						bytes[index+3] = 255;		// as A
 						index += 4;
 					}
-					newValue = ((l+1)-y)*data.GetScalar( data.Columns-1, l )
-							 + (y-l)    *data.GetScalar( data.Columns-1, l+1 );
+					newValue = ((l+1)-y)*data.GetZ( data.Columns-1, l )
+							 + (y-l)    *data.GetZ( data.Columns-1, l+1 );
 					hue = (int)((newValue - min) / (max - min) * 360.0);
 					if( hue >= 360 ) hue = 359;
 					if( hue < 0 ) hue = 0;
@@ -92,8 +92,8 @@ namespace Visualization
 				{
 					double x = xRate*i;
 					int k = (int)x;
-					newValue = ((k+1)-x)*data.GetScalar( k, data.Rows-1 )
-							 + (x-k)    *data.GetScalar( k+1, data.Rows-1 );
+					newValue = ((k+1)-x)*data.GetZ( k, data.Rows-1 )
+							 + (x-k)    *data.GetZ( k+1, data.Rows-1 );
 					hue = (int)((newValue - min) / (max - min) * 360.0);
 					if( hue >= 360 ) hue = 359;
 					if( hue < 0 ) hue = 0;
@@ -103,7 +103,7 @@ namespace Visualization
 					bytes[index+3] = 255;		// as A
 					index += 4;
 				}
-				newValue = data.GetScalar( data.Columns-1, data.Rows-1 );
+				newValue = data.GetZ( data.Columns-1, data.Rows-1 );
 				hue = (int)((newValue - min) / (max - min) * 360.0);
 				if( hue >= 360 ) hue = 359;
 				if( hue < 0 ) hue = 0;

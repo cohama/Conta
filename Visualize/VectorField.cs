@@ -32,7 +32,7 @@ namespace Visualization
 		/// <param name="bmp">描画先の System.Drawing.Bitmap</param>
 		/// <param name="data">元となる 2 次元配列データ</param>
 		/// <exception cref="Visualization.VectorDataNotFoundException">ベクトルデータがないときに投げられます。</exception>
-		public override void DrawTo( Bitmap bmp, DataSheet data )
+		public override void DrawTo( Bitmap bmp, IDataSheet data )
 		{
 			if( !this.Setting.Show )
 			{
@@ -42,6 +42,10 @@ namespace Visualization
 			{
 				throw new VectorDataNotFoundException( "ベクトルデータがありません" );
 			}
+			if( !this.Setting.IsLengthFixed )
+			{
+				this.Setting.ReferredLength = data.MaxZ;
+			}
 			Graphics g = Graphics.FromImage( bmp );
 			Pen p = new Pen( Setting.LineColor );
 			Brush b = new SolidBrush( Setting.InnerColor );
@@ -49,7 +53,7 @@ namespace Visualization
 			float unitX = (float)(bmp.Width - 2*Visualize.BmpMargin -1) / (data.Columns - 1);
 			float unitY = (float)(bmp.Height- 2*Visualize.BmpMargin -1) / (data.Rows - 1);
 
-			Drawer d = new Drawer( g, this.Setting, data.MaxValue, data.MinValue );
+			Drawer d = new Drawer( g, this.Setting, data.MaxZ, data.MinZ );
 
 			int start = (this.Setting.Interval > 1) ? this.Setting.Offset : 0;
 			int step = this.Setting.Interval;

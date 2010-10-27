@@ -20,11 +20,11 @@ namespace Visualization
 		/// <summary>
 		/// データの最大値を取得します。
 		/// </summary>
-		public double MaxValue { get; private set; }
+		public double MaxZ { get; private set; }
 		/// <summary>
 		/// データの最小値を取得します。
 		/// </summary>
-		public double MinValue { get; private set; }
+		public double MinZ { get; private set; }
 
 		/// <summary>
 		/// データがベクトルデータを持っているかどうかを取得、設定します。
@@ -49,7 +49,7 @@ namespace Visualization
 		/// <param name="i">x 方向のインデックス</param>
 		/// <param name="j">y 方向のインデックス</param>
 		/// <returns>(i, j) 点におけるスカラーデータ</returns>
-		public double GetScalar( int i, int j ) { return this.scr[i, j]; }
+		public double GetZ( int i, int j ) { return this.scr[i, j]; }
 		/// <summary>
 		/// ベクトルデータの u 成分 (x 方向成分) を取得します。
 		/// </summary>
@@ -72,8 +72,8 @@ namespace Visualization
 		/// <exception cref="Visualization.DataFormatException">データフォーマットが不正の時に投げられます。</exception>
 		public DataSheet( string fileName )
 		{
-			this.MaxValue = double.MinValue;
-			this.MinValue = double.MaxValue;
+			this.MaxZ = double.MinValue;
+			this.MinZ = double.MaxValue;
 
 			string[] allLines = File.ReadAllLines( fileName );
 			int commentOffset = 0;
@@ -118,8 +118,8 @@ namespace Visualization
 							this.scr[i, j] = dat;
 							this.u[i, j] = u;
 							this.v[i, j] = v;
-							if( length > this.MaxValue ) this.MaxValue = length;
-							if( length < this.MinValue ) this.MinValue = length;
+							if( length > this.MaxZ ) this.MaxZ = length;
+							if( length < this.MinZ ) this.MinZ = length;
 						}
 					}
 				}
@@ -135,8 +135,8 @@ namespace Visualization
 							string[] part = (allLines[index]).Split( new[] { '\t', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries );
 							double dat = double.Parse( part[2] );
 							this.scr[i, j] = dat;
-							if( dat > this.MaxValue ) this.MaxValue = dat;
-							if( dat < this.MinValue ) this.MinValue = dat;
+							if( dat > this.MaxZ ) this.MaxZ = dat;
+							if( dat < this.MinZ ) this.MinZ = dat;
 						}
 					}
 				}

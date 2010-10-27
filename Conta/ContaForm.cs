@@ -38,8 +38,8 @@ namespace Conta
 			this.pictureBox.Height = this.pictureBox.Image.Height;
 			this.textBoxMaxColor.Text = this.vis.ContourSetting.MaxValue.ToString();
 			this.textBoxMinColor.Text = this.vis.ContourSetting.MinValue.ToString();
-			//this.numericUpDownX.Value = this.vis.CrossViewSetting.ReferenceI;
-			//this.numericUpDownY.Value = this.vis.CrossViewSetting.ReferenceJ;
+			this.textBoxRefVectorLength.Text = this.vis.VectorSetting.ReferredLength.ToString();
+			this.textBoxRefCrossView.Text = this.vis.CrossViewSetting.ReferredLength.ToString();
 			this.Invalidate();
 		}
 
@@ -96,6 +96,8 @@ namespace Conta
 			this.textBoxMinColor.DataBindings.Add( "Text", this.vis.ContourSetting, "MinValue" );
 			this.textBoxMaxColor.DataBindings.Add( "Text", this.vis.ContourSetting, "MaxValue" );
 			this.textBoxScale.DataBindings.Add( "Text", this.vis.CrossViewSetting, "Scale" );
+			this.textBoxRefVectorLength.DataBindings.Add( "Text", this.vis.VectorSetting, "ReferredLength" );
+			this.textBoxRefCrossView.DataBindings.Add( "Text", this.vis.CrossViewSetting, "ReferredLength" );
 		}
 
 		#region スイッチボタンのイベントハンドラ
@@ -321,6 +323,20 @@ namespace Conta
 			{
 				this.pictureBox.Image.Save( this.saveFileDialog.FileName );
 			}
+		}
+
+		private void checkBoxRefVector_CheckedChanged( object sender, EventArgs e )
+		{
+			this.vis.VectorSetting.IsLengthFixed = this.checkBoxRefVector.Checked;
+			this.textBoxRefVectorLength.ReadOnly = !this.checkBoxRefVector.Checked;
+			this.draw();
+		}
+
+		private void checkBoxRefCrossView_CheckedChanged( object sender, EventArgs e )
+		{
+			this.vis.CrossViewSetting.IsLengthFixed = this.checkBoxRefCrossView.Checked;
+			this.textBoxRefCrossView.ReadOnly = !this.checkBoxRefCrossView.Checked;
+			this.draw();
 		}
 	}
 }
