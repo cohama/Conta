@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Conta", "Conta\Conta.csproj", "{2747198A-C37B-4BD8-B8C4-A45B3AA7EA83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EFFCBC47-57C0-4B5D-97CD-5FFA51027170} = {EFFCBC47-57C0-4B5D-97CD-5FFA51027170}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visualization", "Visualize\Visualization.csproj", "{EFFCBC47-57C0-4B5D-97CD-5FFA51027170}"
 EndProject
