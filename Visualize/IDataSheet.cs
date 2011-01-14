@@ -5,6 +5,8 @@ namespace Visualization
 	{
 		double AspectRatio { get; }
 		int Columns { get; }
+		double GetX( int i );
+		double GetY( int j );
 		double GetZ( int i, int j );
 		double GetU( int i, int j );
 		double GetV( int i, int j );

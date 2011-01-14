@@ -44,6 +44,20 @@ namespace Visualization
 		public double AspectRatio { get; private set; }
 
 		/// <summary>
+		/// x 方向の位置座標を取得します。
+		/// </summary>
+		/// <param name="i">x 方向のインデックス</param>
+		/// <returns>i 点の x 座標</returns>
+		public double GetX( int i ) { return this.x[i]; }
+
+		/// <summary>
+		/// y 方向の位置座標を取得します。
+		/// </summary>
+		/// <param name="j">y 方向のインデックス</param>
+		/// <returns>j 点の y 座標</returns>
+		public double GetY( int j ) { return this.y[j]; }
+
+		/// <summary>
 		/// スカラーデータを取得します。
 		/// </summary>
 		/// <param name="i">x 方向のインデックス</param>
