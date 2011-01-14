@@ -23,7 +23,7 @@ namespace Visualization
 
 		Bitmap canvas;
 
-		DataSheet data;
+		IDataSheet data;
 
 		ContourField contour;
 		VectorField vector;
@@ -52,7 +52,7 @@ namespace Visualization
 				}
 			}
 
-			public void DrawTo( Bitmap bmp, DataSheet data )
+			public void DrawTo( Bitmap bmp, IDataSheet data )
 			{
 				foreach( var field in this.fields )
 				{
@@ -134,7 +134,9 @@ namespace Visualization
 		public void FromFile( string filename )
 		{
 			this.filename = filename;
-			this.data = new DataSheet( this.filename );
+			NonuniformDataSheet nudata = new NonuniformDataSheet();
+			nudata.Read( this.filename );
+			this.data = nudata;
 		}
 
 		public Bitmap CreateBmp( int width, int height )

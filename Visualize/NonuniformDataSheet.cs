@@ -78,11 +78,11 @@ namespace Visualization
 			string firstLine = allLines[commentOffset];
 			string lastLine  = allLines[allLines.Length - 1];
 
-			string[] firstLineParts = firstLine.Split( new[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries );
-			string[] lastLineParts  = lastLine.Split( new[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries );
+			string[] firstLineParts = splitToData( firstLine );
+			string[] lastLineParts  = splitToData( lastLine );
 
-			if( firstLineParts.Length <= this.UColumn
-			 && firstLineParts.Length <= this.VColumn )
+			if( firstLineParts.Length >= this.UColumn
+			 && firstLineParts.Length >= this.VColumn )
 			{
 				this.HasVectorData = true;
 			}
@@ -128,7 +128,7 @@ namespace Visualization
 				for( int j=-0; j<this.Rows; j++ )
 				{
 					int index = Rows*i + j + commentOffset;
-					string[] parts = allLines[index].Split( new[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries );
+					string[] parts = splitToData( allLines[index] );
 					if( x[i] == 0 )
 					{
 						x[i] = double.Parse( parts[this.XColumn-1] );
@@ -158,13 +158,66 @@ namespace Visualization
 
 		private bool readAsFloatXY( string[] allLines, int commentOffset )
 		{
-			throw new NotImplementedException();
+			return false;
 		}
 
 		private void readAsFloatXYSlow( string[] allLines, int commentOffset )
 		{
-			throw new NotImplementedException();
+			HashSet<double> xSet = new HashSet<double>();
+			HashSet<double> ySet = new HashSet<double>();
+
+			string[] firstLineParts = splitToData( allLines[commentOffset] );
+			if( firstLineParts.Length >= this.UColumn
+			 && firstLineParts.Length >= this.VColumn )
+			{
+				this.HasVectorData = true;
+			}
+
+			// まず、x と y を算出する
+			for( int index=commentOffset; index<allLines.Length; index++ )
+			{
+				string line = allLines[index];
+				string[] parts = splitToData( line );
+				xSet.Add( double.Parse( parts[this.XColumn-1] ) );
+				ySet.Add( double.Parse( parts[this.YColumn-1] ) );
+			}
+			this.x = xSet.ToArray();
+			this.y = ySet.ToArray();
+			this.z = new double[this.Columns, this.Rows];
+			if( this.HasVectorData )
+			{
+				this.u = new double[this.Columns, this.Rows];
+				this.v = new double[this.Columns, this.Rows];
+			}
+
+			// 次にデータを取得する
+			for( int i=0; i<this.Columns; i++ )
+			{
+				for( int j=0; j<this.Rows; j++ )
+				{
+					int index = Rows*i + j + commentOffset;
+					string[] parts = splitToData( allLines[index] );
+					double z = double.Parse( parts[this.ZColumn-1] );
+					this.z[i, j] = z;
+					if( this.MaxZ < z ) this.MaxZ = z;
+					if( this.MinZ > z ) this.MinZ = z;
+					if( this.HasVectorData )
+					{
+						double u = double.Parse( parts[this.UColumn-1] );
+						double v = double.Parse( parts[this.VColumn-1] );
+						this.u[i, j] = u;
+						this.v[i, j] = v;
+						double length = Math.Sqrt( u*u + v*v );
+						if( this.MaxVector < length ) this.MaxVector = length;
+						if( this.MinVector < length ) this.MinVector = length;
+					}
+				}
+			}
 		}
 
+		private static string[] splitToData( string line )
+		{
+			return line.Split( new[] { ' ', '\t', ',' }, StringSplitOptions.RemoveEmptyEntries );
+		}
 	}
 }
