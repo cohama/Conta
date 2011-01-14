@@ -45,7 +45,7 @@ namespace Visualization
 			this.YColumn = 2;
 			this.ZColumn = 3;
 			this.UColumn = 4;
-			this.ZColumn = 5;
+			this.VColumn = 5;
 		}
 
 		public void Read( string filename )
@@ -138,16 +138,19 @@ namespace Visualization
 						y[j] = double.Parse( parts[this.YColumn-1] );
 					}
 					double z = double.Parse( parts[this.ZColumn-1] );
-					double u = double.Parse( parts[this.UColumn-1] );
-					double v = double.Parse( parts[this.VColumn-1] );
 					this.z[i, j] = z;
-					this.u[i, j] = u;
-					this.v[i, j] = v;
 					if( this.MaxZ < z ) this.MaxZ = z;
 					if( this.MinZ > z ) this.MinZ = z;
-					double length = Math.Sqrt( u*u + v*v );
-					if( this.MaxVector < length ) this.MaxVector = length;
-					if( this.MinVector > length ) this.MinVector = length;
+					if( this.HasVectorData )
+					{
+						double u = double.Parse( parts[this.UColumn-1] );
+						double v = double.Parse( parts[this.VColumn-1] );
+						this.u[i, j] = u;
+						this.v[i, j] = v;
+						double length = Math.Sqrt( u*u + v*v );
+						if( this.MaxVector < length ) this.MaxVector = length;
+						if( this.MinVector > length ) this.MinVector = length;
+					}
 				}
 			}
 			return true;
