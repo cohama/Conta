@@ -28,11 +28,11 @@ namespace Visualization
 		public int ZColumn { get; private set; }
 		public int UColumn { get; private set; }
 		public int VColumn { get; private set; }
-		public int Columns { get; private set; }
-		public int Rows { get; private set; }
+		public int Columns { get { return this.x.Length; } }
+		public int Rows { get { return this.y.Length; } }
 		public string FileName { get; private set; }
 		public bool HasVectorData { get; private set; }
-		public double AspectRatio { get { throw new NotImplementedException(); } }
+		public double AspectRatio { get { return (x[Columns-1] - x[0]) / (y[Rows-1] - y[0]); } }
 
 		public NonuniformDataSheet()
 		{
@@ -112,11 +112,11 @@ namespace Visualization
 				throw new DataFormatException( this.FileName, message, ex );
 			}
 
-			this.Columns = lastX + 1 - firstX;
-			this.Rows = lastY +1 - firstY;
+			int columns = lastX + 1 - firstX;
+			int rows = lastY +1 - firstY;
 
-			this.x = new double[this.Columns];
-			this.y = new double[this.Rows];
+			this.x = new double[columns];
+			this.y = new double[rows];
 			this.z = new double[this.Columns, this.Rows];
 			if( this.HasVectorData )
 			{
