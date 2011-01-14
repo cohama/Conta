@@ -18,6 +18,41 @@ namespace Visualization
 			this.Setting = new ContourSetting();
 		}
 
+		/// <summary>
+		/// 線形補間を行う静的メソッド
+		/// </summary>
+		/// <param name="x0">座標 0</param>
+		/// <param name="x">補間したい位置</param>
+		/// <param name="x1">座標 1</param>
+		/// <param name="v0">座標 0 における値</param>
+		/// <param name="v1">座標 1 における値</param>
+		/// <returns>位置 x における線形補間された値</returns>
+		private static double linearInterpolation( double x0, double x, double x1, double v0, double v1 )
+		{
+			return (x - x0) / (x1 - x0) * (v1 - v0) + v0;
+		}
+
+		/// <summary>
+		/// バイリニア補間を行う静的メソッド
+		/// </summary>
+		/// <param name="x0">x 座標 0</param>
+		/// <param name="x">補間したい位置の x 座標</param>
+		/// <param name="x1">x 座標 1</param>
+		/// <param name="y0">y 座標 0</param>
+		/// <param name="y">補間したい位置の y 座標</param>
+		/// <param name="y1">y 座標 1</param>
+		/// <param name="vx0y0">x が 0、y が 0 の位置における値</param>
+		/// <param name="vx0y1">x が 0、y が 1 の位置における値</param>
+		/// <param name="vx1y0">x が 1、y が 0 の位置における値</param>
+		/// <param name="vx1y1">x が 1、y が 1 の位置における値</param>
+		/// <returns>位置 (x, y) における線形補間された値</returns>
+		private static double bilinearInterpolation( double x0, double x, double x1, double y0, double y, double y1, double vx0y0, double vx0y1, double vx1y0, double vx1y1 )
+		{
+			return linearInterpolation( y0, y, y1,
+				linearInterpolation( x0, x, x1, vx0y0, vx1y0 ),
+				linearInterpolation( x0, x, x1, vx0y1, vx1y1 ) );
+		}
+
 		public override void DrawTo( Bitmap bmp, IDataSheet data )
 		{
 			if( !this.Setting.Show )
@@ -44,29 +79,52 @@ namespace Visualization
 					bytes[i+2] = 255; // as R
 					bytes[i+3] = 255; // as A
 				}
-				int inW = bmp.Width - 2*Visualize.BmpMargin;	// コンターの幅
-				int inH = bmp.Height - 2*Visualize.BmpMargin;	// コンターの高さ
+				int width = bmp.Width - 2*Visualize.BmpMargin;	// コンターの幅
+				int height = bmp.Height - 2*Visualize.BmpMargin;	// コンターの高さ
 
-				double xRate = (double)(data.Columns - 1)/(inW - 1);		// データ座標 → ビットマップ座標の変換用
-				double yRate = (double)(data.Rows - 1)/(inH - 1);
+				double dataWidth = data.GetX( data.Columns - 1 ) - data.GetX( 0 );
+				double dataHeight = data.GetY( data.Rows - 1 ) - data.GetY( 0 );
+
+				double xRate = dataWidth / (width - 1);		// bmp 座標 → データ座標変換用
+				double yRate = dataHeight / (height - 1);
+
 				double newValue = 0;	// バイリニア補間されたデータ
 				int index = 0;			// バイト配列アクセス用
 				int hue = 0;			// 色相
-				
-				for( int j=0; j<inH-1; j++ )
+
+				int dataYIndex = 0;
+
+				for( int j=0; j<height; j++ )
 				{
-					index = 4*(((inH+Visualize.BmpMargin)-1-j)*bmp.Width + Visualize.BmpMargin);
+					index = 4*(((height+Visualize.BmpMargin)-1-j)*bmp.Width + Visualize.BmpMargin);
 					double y = yRate*j;
-					int l = (int)y;
-					for( int i=0; i<inW-1; i++ )
+					while( !(data.GetY( dataYIndex ) <= y && y <= data.GetY( dataYIndex+1 )) )
+					{
+						dataYIndex++;
+					}
+					double y0 = data.GetY( dataYIndex );
+					double y1 = data.GetY( dataYIndex+1 );
+
+					int dataXIndex = 0;
+
+					for( int i=0; i<width; i++ )
 					{
 						// bilinear interporation
 						double x = xRate*i;
-						int k = (int)x;
-						newValue = ((k+1)-x)*((l+1)-y)*data.GetZ( k, l )
-								 + ((k+1)-x)*(y-l)    *data.GetZ( k, l+1 )
-								 + (x-k)    *((l+1)-y)*data.GetZ( k+1, l )
-								 + (x-k)    *(y-l)    *data.GetZ( k+1, l+1 );
+						while( !(data.GetX( dataXIndex ) <= x && x <= data.GetX( dataXIndex+1 )) )
+						{
+							dataXIndex++;
+						}
+						double x0 = data.GetX( dataXIndex );
+						double x1 = data.GetX( dataXIndex+1 );
+
+						double vx0y0 = data.GetZ( dataXIndex, dataYIndex );
+						double vx0y1 = data.GetZ( dataXIndex, dataYIndex+1 );
+						double vx1y0 = data.GetZ( dataXIndex+1, dataYIndex );
+						double vx1y1 = data.GetZ( dataXIndex+1, dataYIndex+1 );
+
+						newValue = bilinearInterpolation( x0, x, x1, y0, y, y1, vx0y0, vx0y1, vx1y0, vx1y1 );
+
 						hue = (int)((newValue - min) / (max - min) * 360.0);
 						if( hue >= 360 ) hue = 359;
 						if( hue < 0 ) hue = 0;
@@ -76,42 +134,7 @@ namespace Visualization
 						bytes[index+3] = 255;		// as A
 						index += 4;
 					}
-					newValue = ((l+1)-y)*data.GetZ( data.Columns-1, l )
-							 + (y-l)    *data.GetZ( data.Columns-1, l+1 );
-					hue = (int)((newValue - min) / (max - min) * 360.0);
-					if( hue >= 360 ) hue = 359;
-					if( hue < 0 ) hue = 0;
-					bytes[index+0] = ColorBar.FromHue( hue ).B;
-					bytes[index+1] = ColorBar.FromHue( hue ).G;
-					bytes[index+2] = ColorBar.FromHue( hue ).R;
-					bytes[index+3] = 255;		// as A
-					index += 4;
 				}
-				index = 4*(Visualize.BmpMargin*bmp.Width + Visualize.BmpMargin);
-				for( int i=0; i<inW-1; i++ )
-				{
-					double x = xRate*i;
-					int k = (int)x;
-					newValue = ((k+1)-x)*data.GetZ( k, data.Rows-1 )
-							 + (x-k)    *data.GetZ( k+1, data.Rows-1 );
-					hue = (int)((newValue - min) / (max - min) * 360.0);
-					if( hue >= 360 ) hue = 359;
-					if( hue < 0 ) hue = 0;
-					bytes[index+0] = ColorBar.FromHue( hue ).B;
-					bytes[index+1] = ColorBar.FromHue( hue ).G;
-					bytes[index+2] = ColorBar.FromHue( hue ).R;
-					bytes[index+3] = 255;		// as A
-					index += 4;
-				}
-				newValue = data.GetZ( data.Columns-1, data.Rows-1 );
-				hue = (int)((newValue - min) / (max - min) * 360.0);
-				if( hue >= 360 ) hue = 359;
-				if( hue < 0 ) hue = 0;
-				bytes[index+0] = ColorBar.FromHue( hue ).B;
-				bytes[index+1] = ColorBar.FromHue( hue ).G;
-				bytes[index+2] = ColorBar.FromHue( hue ).R;
-				bytes[index+3] = 255;		// as A
-
 				Marshal.Copy( bytes, 0, scan0, bytes.Length );
 			}
 			finally
