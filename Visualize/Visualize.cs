@@ -21,44 +21,14 @@ namespace Visualization
 
 		Canvas canvas;
 
-		IDataSheet data;
+		NonuniformDataSheet data;
 
 		ContourField contour;
 		VectorField vector;
 		GridPointField gridPoint;
 		CrossViewField crossView;
 
-		class FieldCollection
-		{
-			List<Field> fields;
-
-			public FieldCollection()
-			{
-				this.fields = new List<Field>();
-			}
-
-			public void Add( Field field )
-			{
-				this.fields.Add( field );
-			}
-
-			public void ForEach( Action<Field> action )
-			{
-				foreach( var field in this.fields )
-				{
-					action( field );
-				}
-			}
-
-			public void DrawTo( Bitmap bmp, IDataSheet data )
-			{
-				foreach( var field in this.fields )
-				{
-					field.DrawTo( bmp, data );
-				}
-			}
-		}
-		FieldCollection Fields { get; set; }
+		List<Field> fields;
 
 		public ViewSetting ViewSetting { get; private set; }
 
@@ -78,21 +48,20 @@ namespace Visualization
 		public Visualize( int width, int height )
 		{
 			this.ViewSetting = new ViewSetting();
-			this.Fields = new FieldCollection();
+			this.fields = new List<Field>();
 
 			this.contour = new ContourField();
 			this.vector = new VectorField();
 			this.gridPoint = new GridPointField();
 			this.crossView = new CrossViewField();
 
-			this.Fields.Add( this.contour );
-			this.Fields.Add( this.vector );
-			this.Fields.Add( this.gridPoint );
-			this.Fields.Add( this.crossView );
+			this.fields.Add( this.contour );
+			this.fields.Add( this.vector );
+			this.fields.Add( this.gridPoint );
+			this.fields.Add( this.crossView );
 
 			this.BmpWidth = width;
 			this.BmpHeight = height;
-		}
 
 			this.data = new NonuniformDataSheet();
 		}
@@ -100,9 +69,7 @@ namespace Visualization
 		public void FromFile( string filename )
 		{
 			this.filename = filename;
-			NonuniformDataSheet nudata = new NonuniformDataSheet();
-			nudata.Read( this.filename );
-			this.data = nudata;
+			this.data.Read( this.filename );
 		}
 
 		public Bitmap CreateBmp( int width, int height )
