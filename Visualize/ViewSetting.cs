@@ -25,6 +25,32 @@ namespace Visualization
 		WidthBase,
 	}
 
+	public struct Margin
+	{
+		public int Left;
+		public int Right;
+		public int Bottom;
+		public int Top;
+
+		public void SetAll( int value )
+		{
+			this.Left = this.Right = this.Bottom = this.Top = value;
+		}
+
+		public Margin( int value )
+		{
+			this.Left = this.Right = this.Bottom = this.Top = value;
+		}
+
+		public Margin( int left, int right, int bottom, int top )
+		{
+			this.Left = left;
+			this.Right = right;
+			this.Bottom = bottom;
+			this.Top = top;
+		}
+	}
+
 	/// <summary>
 	/// Conta における表示の設定を行うクラスです。
 	/// </summary>
@@ -35,8 +61,12 @@ namespace Visualization
 		/// </summary>
 		public FieldSizeMode FieldSizeMode { get; set; }
 
+		public Margin Margin { get; set; }
+
 		public ViewSetting()
 		{
+			this.FieldSizeMode = Visualization.FieldSizeMode.Auto;
+			this.Margin = new Margin( 50 );
 		}
 	}
 }
