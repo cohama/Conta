@@ -66,6 +66,10 @@
 			this.groupBoxView = new System.Windows.Forms.GroupBox();
 			this.comboBoxSizeMode = new System.Windows.Forms.ComboBox();
 			this.groupBoxData2D = new System.Windows.Forms.GroupBox();
+			this.switchButtonCrossView = new Conta.SwitchButton();
+			this.switchButtonGridPoint = new Conta.SwitchButton();
+			this.switchButtonVector = new Conta.SwitchButton();
+			this.switchButtonContour = new Conta.SwitchButton();
 			this.groupBoxBasic = new System.Windows.Forms.GroupBox();
 			this.buttonSaveBmp = new System.Windows.Forms.Button();
 			this.buttonEdit = new System.Windows.Forms.Button();
@@ -82,10 +86,6 @@
 			this.panelBmp = new System.Windows.Forms.Panel();
 			this.pictureBox = new System.Windows.Forms.PictureBox();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.switchButtonCrossView = new Conta.SwitchButton();
-			this.switchButtonGridPoint = new Conta.SwitchButton();
-			this.switchButtonVector = new Conta.SwitchButton();
-			this.switchButtonContour = new Conta.SwitchButton();
 			this.panelSettings.SuspendLayout();
 			this.groupBoxCrossView.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownY)).BeginInit();
@@ -539,6 +539,70 @@
 			this.groupBoxData2D.TabStop = false;
 			this.groupBoxData2D.Text = "2Dデータの表示";
 			// 
+			// switchButtonCrossView
+			// 
+			this.switchButtonCrossView.BackgroundImage = global::Conta.Properties.Resources.CrossView;
+			this.switchButtonCrossView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.switchButtonCrossView.BkImgNormal = global::Conta.Properties.Resources.CrossView;
+			this.switchButtonCrossView.BkImgSelected = global::Conta.Properties.Resources.CrossView_Selected;
+			this.switchButtonCrossView.Checked = false;
+			this.switchButtonCrossView.FlatAppearance.BorderSize = 0;
+			this.switchButtonCrossView.Location = new System.Drawing.Point( 156, 14 );
+			this.switchButtonCrossView.Name = "switchButtonCrossView";
+			this.switchButtonCrossView.Size = new System.Drawing.Size( 50, 50 );
+			this.switchButtonCrossView.TabIndex = 7;
+			this.toolTip.SetToolTip( this.switchButtonCrossView, "断面の分布" );
+			this.switchButtonCrossView.UseVisualStyleBackColor = true;
+			this.switchButtonCrossView.Click += new System.EventHandler( this.switchButtonCrossView_Click );
+			// 
+			// switchButtonGridPoint
+			// 
+			this.switchButtonGridPoint.BackgroundImage = global::Conta.Properties.Resources.GridPoint;
+			this.switchButtonGridPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.switchButtonGridPoint.BkImgNormal = global::Conta.Properties.Resources.GridPoint;
+			this.switchButtonGridPoint.BkImgSelected = global::Conta.Properties.Resources.GridPoint_Selected;
+			this.switchButtonGridPoint.Checked = false;
+			this.switchButtonGridPoint.FlatAppearance.BorderSize = 0;
+			this.switchButtonGridPoint.Location = new System.Drawing.Point( 107, 14 );
+			this.switchButtonGridPoint.Name = "switchButtonGridPoint";
+			this.switchButtonGridPoint.Size = new System.Drawing.Size( 50, 50 );
+			this.switchButtonGridPoint.TabIndex = 6;
+			this.toolTip.SetToolTip( this.switchButtonGridPoint, "格子点" );
+			this.switchButtonGridPoint.UseVisualStyleBackColor = true;
+			this.switchButtonGridPoint.Click += new System.EventHandler( this.switchButtonGridPoint_Click );
+			// 
+			// switchButtonVector
+			// 
+			this.switchButtonVector.BackgroundImage = global::Conta.Properties.Resources.ColorVector;
+			this.switchButtonVector.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.switchButtonVector.BkImgNormal = global::Conta.Properties.Resources.ColorVector;
+			this.switchButtonVector.BkImgSelected = global::Conta.Properties.Resources.ColorVector_Selected;
+			this.switchButtonVector.Checked = false;
+			this.switchButtonVector.FlatAppearance.BorderSize = 0;
+			this.switchButtonVector.Location = new System.Drawing.Point( 57, 14 );
+			this.switchButtonVector.Name = "switchButtonVector";
+			this.switchButtonVector.Size = new System.Drawing.Size( 50, 50 );
+			this.switchButtonVector.TabIndex = 4;
+			this.toolTip.SetToolTip( this.switchButtonVector, "ベクトル図" );
+			this.switchButtonVector.UseVisualStyleBackColor = true;
+			this.switchButtonVector.Click += new System.EventHandler( this.vectorSwitchButton_Click );
+			// 
+			// switchButtonContour
+			// 
+			this.switchButtonContour.BackgroundImage = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BackgroundImage" )));
+			this.switchButtonContour.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+			this.switchButtonContour.BkImgNormal = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BkImgNormal" )));
+			this.switchButtonContour.BkImgSelected = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BkImgSelected" )));
+			this.switchButtonContour.Checked = false;
+			this.switchButtonContour.FlatAppearance.BorderSize = 0;
+			this.switchButtonContour.Location = new System.Drawing.Point( 7, 14 );
+			this.switchButtonContour.Name = "switchButtonContour";
+			this.switchButtonContour.Size = new System.Drawing.Size( 50, 50 );
+			this.switchButtonContour.TabIndex = 3;
+			this.toolTip.SetToolTip( this.switchButtonContour, "カラー等値図" );
+			this.switchButtonContour.UseVisualStyleBackColor = true;
+			this.switchButtonContour.Click += new System.EventHandler( this.contourSwitchButton_Click );
+			// 
 			// groupBoxBasic
 			// 
 			this.groupBoxBasic.Controls.Add( this.buttonSaveBmp );
@@ -692,70 +756,6 @@
 			// saveFileDialog
 			// 
 			this.saveFileDialog.Filter = "PNG ファイル|*.png|JPEG ファイル|*.jpg|ビットマップファイル|*.bmp|すべてのファイル|*.*";
-			// 
-			// switchButtonCrossView
-			// 
-			this.switchButtonCrossView.BackgroundImage = global::Conta.Properties.Resources.CrossView;
-			this.switchButtonCrossView.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.switchButtonCrossView.BkImgNormal = global::Conta.Properties.Resources.CrossView;
-			this.switchButtonCrossView.BkImgSelected = global::Conta.Properties.Resources.CrossView_Selected;
-			this.switchButtonCrossView.Checked = false;
-			this.switchButtonCrossView.FlatAppearance.BorderSize = 0;
-			this.switchButtonCrossView.Location = new System.Drawing.Point( 156, 14 );
-			this.switchButtonCrossView.Name = "switchButtonCrossView";
-			this.switchButtonCrossView.Size = new System.Drawing.Size( 50, 50 );
-			this.switchButtonCrossView.TabIndex = 7;
-			this.toolTip.SetToolTip( this.switchButtonCrossView, "断面の分布" );
-			this.switchButtonCrossView.UseVisualStyleBackColor = true;
-			this.switchButtonCrossView.Click += new System.EventHandler( this.switchButtonCrossView_Click );
-			// 
-			// switchButtonGridPoint
-			// 
-			this.switchButtonGridPoint.BackgroundImage = global::Conta.Properties.Resources.GridPoint;
-			this.switchButtonGridPoint.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.switchButtonGridPoint.BkImgNormal = global::Conta.Properties.Resources.GridPoint;
-			this.switchButtonGridPoint.BkImgSelected = global::Conta.Properties.Resources.GridPoint_Selected;
-			this.switchButtonGridPoint.Checked = false;
-			this.switchButtonGridPoint.FlatAppearance.BorderSize = 0;
-			this.switchButtonGridPoint.Location = new System.Drawing.Point( 107, 14 );
-			this.switchButtonGridPoint.Name = "switchButtonGridPoint";
-			this.switchButtonGridPoint.Size = new System.Drawing.Size( 50, 50 );
-			this.switchButtonGridPoint.TabIndex = 6;
-			this.toolTip.SetToolTip( this.switchButtonGridPoint, "格子点" );
-			this.switchButtonGridPoint.UseVisualStyleBackColor = true;
-			this.switchButtonGridPoint.Click += new System.EventHandler( this.switchButtonGridPoint_Click );
-			// 
-			// switchButtonVector
-			// 
-			this.switchButtonVector.BackgroundImage = global::Conta.Properties.Resources.ColorVector;
-			this.switchButtonVector.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.switchButtonVector.BkImgNormal = global::Conta.Properties.Resources.ColorVector;
-			this.switchButtonVector.BkImgSelected = global::Conta.Properties.Resources.ColorVector_Selected;
-			this.switchButtonVector.Checked = false;
-			this.switchButtonVector.FlatAppearance.BorderSize = 0;
-			this.switchButtonVector.Location = new System.Drawing.Point( 57, 14 );
-			this.switchButtonVector.Name = "switchButtonVector";
-			this.switchButtonVector.Size = new System.Drawing.Size( 50, 50 );
-			this.switchButtonVector.TabIndex = 4;
-			this.toolTip.SetToolTip( this.switchButtonVector, "ベクトル図" );
-			this.switchButtonVector.UseVisualStyleBackColor = true;
-			this.switchButtonVector.Click += new System.EventHandler( this.vectorSwitchButton_Click );
-			// 
-			// switchButtonContour
-			// 
-			this.switchButtonContour.BackgroundImage = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BackgroundImage" )));
-			this.switchButtonContour.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.switchButtonContour.BkImgNormal = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BkImgNormal" )));
-			this.switchButtonContour.BkImgSelected = ((System.Drawing.Image)(resources.GetObject( "switchButtonContour.BkImgSelected" )));
-			this.switchButtonContour.Checked = false;
-			this.switchButtonContour.FlatAppearance.BorderSize = 0;
-			this.switchButtonContour.Location = new System.Drawing.Point( 7, 14 );
-			this.switchButtonContour.Name = "switchButtonContour";
-			this.switchButtonContour.Size = new System.Drawing.Size( 50, 50 );
-			this.switchButtonContour.TabIndex = 3;
-			this.toolTip.SetToolTip( this.switchButtonContour, "カラー等値図" );
-			this.switchButtonContour.UseVisualStyleBackColor = true;
-			this.switchButtonContour.Click += new System.EventHandler( this.contourSwitchButton_Click );
 			// 
 			// ContaForm
 			// 
