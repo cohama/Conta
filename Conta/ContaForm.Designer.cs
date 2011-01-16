@@ -82,10 +82,6 @@
 			this.panelBmp = new System.Windows.Forms.Panel();
 			this.pictureBox = new System.Windows.Forms.PictureBox();
 			this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-			this.textBoxRefVectorLength = new System.Windows.Forms.TextBox();
-			this.checkBoxRefVector = new System.Windows.Forms.CheckBox();
-			this.checkBoxRefCrossView = new System.Windows.Forms.CheckBox();
-			this.textBoxRefCrossView = new System.Windows.Forms.TextBox();
 			this.switchButtonCrossView = new Conta.SwitchButton();
 			this.switchButtonGridPoint = new Conta.SwitchButton();
 			this.switchButtonVector = new Conta.SwitchButton();
@@ -696,44 +692,6 @@
 			// saveFileDialog
 			// 
 			this.saveFileDialog.Filter = "PNG ファイル|*.png|JPEG ファイル|*.jpg|ビットマップファイル|*.bmp|すべてのファイル|*.*";
-			// 
-			// textBoxRefVectorLength
-			// 
-			this.textBoxRefVectorLength.Location = new System.Drawing.Point( 118, 69 );
-			this.textBoxRefVectorLength.Name = "textBoxRefVectorLength";
-			this.textBoxRefVectorLength.ReadOnly = true;
-			this.textBoxRefVectorLength.Size = new System.Drawing.Size( 83, 19 );
-			this.textBoxRefVectorLength.TabIndex = 9;
-			// 
-			// checkBoxRefVector
-			// 
-			this.checkBoxRefVector.AutoSize = true;
-			this.checkBoxRefVector.Location = new System.Drawing.Point( 14, 71 );
-			this.checkBoxRefVector.Name = "checkBoxRefVector";
-			this.checkBoxRefVector.Size = new System.Drawing.Size( 93, 16 );
-			this.checkBoxRefVector.TabIndex = 10;
-			this.checkBoxRefVector.Text = "基準値を指定";
-			this.checkBoxRefVector.UseVisualStyleBackColor = true;
-			this.checkBoxRefVector.CheckedChanged += new System.EventHandler( this.checkBoxRefVector_CheckedChanged );
-			// 
-			// checkBoxRefCrossView
-			// 
-			this.checkBoxRefCrossView.AutoSize = true;
-			this.checkBoxRefCrossView.Location = new System.Drawing.Point( 14, 93 );
-			this.checkBoxRefCrossView.Name = "checkBoxRefCrossView";
-			this.checkBoxRefCrossView.Size = new System.Drawing.Size( 93, 16 );
-			this.checkBoxRefCrossView.TabIndex = 12;
-			this.checkBoxRefCrossView.Text = "基準値を指定";
-			this.checkBoxRefCrossView.UseVisualStyleBackColor = true;
-			this.checkBoxRefCrossView.CheckedChanged += new System.EventHandler( this.checkBoxRefCrossView_CheckedChanged );
-			// 
-			// textBoxRefCrossView
-			// 
-			this.textBoxRefCrossView.Location = new System.Drawing.Point( 118, 91 );
-			this.textBoxRefCrossView.Name = "textBoxRefCrossView";
-			this.textBoxRefCrossView.ReadOnly = true;
-			this.textBoxRefCrossView.Size = new System.Drawing.Size( 83, 19 );
-			this.textBoxRefCrossView.TabIndex = 11;
 			// 
 			// switchButtonCrossView
 			// 
