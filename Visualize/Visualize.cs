@@ -12,8 +12,6 @@ namespace Visualization
 {
 	public class Visualize
 	{
-		static readonly Bitmap planeCanvas = Resources.PlaneCanvas;
-
 		public static readonly int BmpMargin = 50;
 
 		public int BmpWidth { get; private set; }
@@ -21,7 +19,7 @@ namespace Visualization
 
 		string filename;
 
-		Bitmap canvas;
+		Canvas canvas;
 
 		IDataSheet data;
 
@@ -96,39 +94,7 @@ namespace Visualization
 			this.BmpHeight = height;
 		}
 
-		private Size resize( int width, int height )
-		{
-			int w;
-			int h;
-			switch( this.ViewSetting.FieldSizeMode )
-			{
-			case FieldSizeMode.Auto:
-				if( this.data.AspectRatio < ((double)width/(double)height) )
-				{
-					w = (int)(height * data.AspectRatio);
-					h = height;
-				}
-				else
-				{
-					w = width;
-					h = (int)(width / data.AspectRatio);
-				}
-				break;
-
-			case FieldSizeMode.HeightBase:
-				w = (int)(height * data.AspectRatio);
-				h = height;
-				break;
-
-			case FieldSizeMode.WidthBase:
-				w = width;
-				h = (int)(width / data.AspectRatio);
-				break;
-
-			default:
-				throw new NotImplementedException();
-			}
-			return new Size( w, h );
+			this.data = new NonuniformDataSheet();
 		}
 
 		public void FromFile( string filename )
@@ -141,12 +107,12 @@ namespace Visualization
 
 		public Bitmap CreateBmp( int width, int height )
 		{
-			Size newSize = this.resize( width, height );
-			this.BmpWidth = newSize.Width;
-			this.BmpHeight = newSize.Height;
-			this.canvas = new Bitmap( planeCanvas, BmpWidth, BmpHeight );
-			this.Fields.DrawTo( this.canvas, this.data );
-			return this.canvas;
+			this.canvas = new Canvas( width, height, this.data.AspectRatio, this.ViewSetting.FieldSizeMode, new Margin( 50 ) );
+			foreach( var field in fields )
+			{
+				field.DrawTo( this.canvas.Bitmap, this.data );
+			}
+			return this.canvas.Bitmap;
 		}
 	}
 }
