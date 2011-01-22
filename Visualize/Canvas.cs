@@ -48,36 +48,40 @@ namespace Visualization
 			int w;
 			int h;
 
+			int drawingWidth = Math.Max( 1, width - this.Setting.Margin.Left - this.Setting.Margin.Right );
+			int drawingHeight = Math.Max( 1, height - this.Setting.Margin.Top - this.Setting.Margin.Bottom );
+
 			switch( this.Setting.FieldSizeMode )
 			{
 				case FieldSizeMode.Auto:
-					if( aspectRatio < (double)width / height )
+					if( aspectRatio < (double)drawingWidth / drawingHeight )
 					{
-						w = (int)(height * aspectRatio);
-						h = height;
+						w = (int)(drawingHeight * aspectRatio);
+						h = drawingHeight;
 					}
 					else
 					{
-						w = width;
-						h = (int)(width / aspectRatio);
+						w = drawingWidth;
+						h = (int)(drawingWidth / aspectRatio);
 					}
 					break;
 
 				case FieldSizeMode.HeightBase:
-					w = (int)(height * aspectRatio);
-					h = height;
+					w = (int)(drawingHeight * aspectRatio);
+					h = drawingHeight;
 					break;
 
 				case FieldSizeMode.WidthBase:
-					w = width;
-					h = (int)(width / aspectRatio);
+					w = drawingWidth;
+					h = (int)(drawingWidth / aspectRatio);
 					break;
 
 				default:
 					throw new NotImplementedException();
 			}
-
-			this.Bitmap = new Bitmap( PlaneCanvas, w, h );
+			int newW = Math.Max( 2, w );
+			int newH = Math.Max( 2, h );
+			this.Bitmap = new Bitmap( PlaneCanvas, newW + this.Setting.Margin.Width, newH + this.Setting.Margin.Height );
 		}
 	}
 }
