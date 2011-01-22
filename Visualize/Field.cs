@@ -8,6 +8,6 @@ namespace Visualization
 {
 	abstract class Field
 	{
-		public abstract void DrawTo( Bitmap bmp, IDataSheet data );
+		public abstract void DrawTo( Canvas canvas, IDataSheet data );
 	}
 }

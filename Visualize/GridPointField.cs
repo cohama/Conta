@@ -15,18 +15,18 @@ namespace Visualization
 			this.Setting = new GridPointSetting();
 		}
 
-		public override void DrawTo( Bitmap bmp, IDataSheet data )
+		public override void DrawTo( Canvas canvas, IDataSheet data )
 		{
 			if( !Setting.Show )
 			{
 				return;
 			}
-			Graphics g = Graphics.FromImage( bmp );
+			Graphics g = Graphics.FromImage( canvas.Bitmap );
 			Pen p = new Pen( Color.Black );
 			int originX = Visualize.BmpMargin - 1;
-			int originY = bmp.Height - Visualize.BmpMargin;
-			double unitX = (double)(bmp.Width - 2*Visualize.BmpMargin - 1) / (data.GetX( data.Columns-1 ) - data.GetX( 0 ) );
-			double unitY = (double)(bmp.Height- 2*Visualize.BmpMargin - 1) / (data.GetY( data.Rows-1 ) - data.GetY( 0 ) );
+			int originY = canvas.Bitmap.Height - Visualize.BmpMargin;
+			double unitX = (double)(canvas.Bitmap.Width - 2*Visualize.BmpMargin - 1) / (data.GetX( data.Columns-1 ) - data.GetX( 0 ));
+			double unitY = (double)(canvas.Bitmap.Height- 2*Visualize.BmpMargin - 1) / (data.GetY( data.Rows-1 ) - data.GetY( 0 ));
 			for( int i=0; i<data.Columns; i++ )
 			{
 				for( int j=0; j<data.Rows; j++ )

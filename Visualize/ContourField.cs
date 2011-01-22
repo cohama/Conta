@@ -53,8 +53,9 @@ namespace Visualization
 				linearInterpolation( x0, x, x1, vx0y1, vx1y1 ) );
 		}
 
-		public override void DrawTo( Bitmap bmp, IDataSheet data )
+		public override void DrawTo( Canvas canvas, IDataSheet data )
 		{
+			Bitmap bmp = canvas.Bitmap;
 			if( !this.Setting.Show )
 			{
 				return;
@@ -67,11 +68,11 @@ namespace Visualization
 			this.Setting.PropertyChanged = false;
 			double max = this.Setting.MaxValue;
 			double min = this.Setting.MinValue;
-			BitmapData bd = bmp.LockBits( new Rectangle( 0, 0, bmp.Width, bmp.Height ), ImageLockMode.WriteOnly, bmp.PixelFormat );
+			BitmapData bd = canvas.Bitmap.LockBits( new Rectangle( 0, 0, canvas.Bitmap.Width, canvas.Bitmap.Height ), ImageLockMode.WriteOnly, canvas.Bitmap.PixelFormat );
 			try
 			{
 				IntPtr scan0 = bd.Scan0;
-				byte[] bytes = new byte[bmp.Width*bmp.Height*4];
+				byte[] bytes = new byte[canvas.Bitmap.Width*canvas.Bitmap.Height*4];
 				for( int i=0; i<bytes.Length; i+=4 )	// 白で初期化
 				{
 					bytes[i+0] = 255; // as B
@@ -79,7 +80,7 @@ namespace Visualization
 					bytes[i+2] = 255; // as R
 					bytes[i+3] = 255; // as A
 				}
-				int width = bmp.Width - 2*Visualize.BmpMargin;	// コンターの幅
+				int width = canvas.Bitmap.Width - 2*Visualize.BmpMargin;	// コンターの幅
 				int height = bmp.Height - 2*Visualize.BmpMargin;	// コンターの高さ
 
 				double dataWidth = data.GetX( data.Columns - 1 ) - data.GetX( 0 );

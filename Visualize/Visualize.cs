@@ -74,10 +74,10 @@ namespace Visualization
 
 		public Bitmap CreateBmp( int width, int height )
 		{
-			this.canvas = new Canvas( width, height, this.data.AspectRatio, this.ViewSetting.FieldSizeMode, new Margin( 50 ) );
+			this.canvas = new Canvas( width, height, this.data.AspectRatio );
 			foreach( var field in fields )
 			{
-				field.DrawTo( this.canvas.Bitmap, this.data );
+				field.DrawTo( this.canvas, this.data );
 			}
 			return this.canvas.Bitmap;
 		}

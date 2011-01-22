@@ -12,23 +12,15 @@ namespace Visualization
 	{
 		static readonly Bitmap PlaneCanvas = Resources.PlaneCanvas;
 
-		public FieldSizeMode FieldSizeMode { get; private set; }
-
-		public Margin Margin { get; private set; }
+		public ViewSetting Setting { get; set; }
 
 		public Bitmap Bitmap { get; private set; }
 
 		public int Width { get { return this.Bitmap.Width; } }
 		public int Height { get { return this.Bitmap.Height; } }
-		
-		public Canvas( int width, int height, double aspectRatio, ViewSetting settings )
-			: this( width, height, aspectRatio, settings.FieldSizeMode, settings.Margin ) { }
 
-		public Canvas( int width, int height, double aspectRatio, FieldSizeMode sizeMode, Margin margin )
+		public Canvas( int width, int height, double aspectRatio )
 		{
-			this.Margin = margin;
-			this.FieldSizeMode = sizeMode;
-
 			this.resize( width, height, aspectRatio );
 		}
 
@@ -37,7 +29,7 @@ namespace Visualization
 			int w;
 			int h;
 
-			switch( this.FieldSizeMode )
+			switch( this.Setting.FieldSizeMode )
 			{
 				case FieldSizeMode.Auto:
 					if( aspectRatio < (double)width / height )

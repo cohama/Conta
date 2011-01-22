@@ -32,8 +32,9 @@ namespace Visualization
 		/// <param name="bmp">描画先の System.Drawing.Bitmap</param>
 		/// <param name="data">元となる 2 次元配列データ</param>
 		/// <exception cref="Visualization.VectorDataNotFoundException">ベクトルデータがないときに投げられます。</exception>
-		public override void DrawTo( Bitmap bmp, IDataSheet data )
+		public override void DrawTo( Canvas canvas, IDataSheet data )
 		{
+			Bitmap bmp = canvas.Bitmap;
 			if( !this.Setting.Show )
 			{
 				return;

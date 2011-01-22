@@ -19,8 +19,9 @@ namespace Visualization
 			this.Setting = new CrossViewSetting();
 		}
 
-		public override void DrawTo( Bitmap bmp, IDataSheet data )
+		public override void DrawTo( Canvas canvas, IDataSheet data )
 		{
+			Bitmap bmp = canvas.Bitmap;
 			if( !this.Setting.Show )
 			{
 				return;
