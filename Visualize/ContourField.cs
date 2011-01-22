@@ -80,14 +80,11 @@ namespace Visualization
 					bytes[i+2] = 255; // as R
 					bytes[i+3] = 255; // as A
 				}
-				int width = canvas.Bitmap.Width - 2*Visualize.BmpMargin;	// コンターの幅
-				int height = bmp.Height - 2*Visualize.BmpMargin;	// コンターの高さ
+				int width = canvas.DrawingWidth;	// コンターの幅
+				int height = canvas.DrawingHeight;	// コンターの高さ
 
-				double dataWidth = data.GetX( data.Columns - 1 ) - data.GetX( 0 );
-				double dataHeight = data.GetY( data.Rows - 1 ) - data.GetY( 0 );
-
-				double xRate = dataWidth / (width - 1);		// bmp 座標 → データ座標変換用
-				double yRate = dataHeight / (height - 1);
+				double xBtoDRate = 1.0 / (width - 1);		// bmp 座標 → データ座標変換用
+				double yBtoDRate = 1.0 / (height - 1);
 
 				double newValue = 0;	// バイリニア補間されたデータ
 				int index = 0;			// バイト配列アクセス用
@@ -97,8 +94,8 @@ namespace Visualization
 
 				for( int j=0; j<height; j++ )
 				{
-					index = 4*(((height+Visualize.BmpMargin)-1-j)*bmp.Width + Visualize.BmpMargin);
-					double y = yRate*j;
+					index = 4*(((height+canvas.Setting.Margin.Top)-1-j)*bmp.Width + canvas.Setting.Margin.Left);
+					double y = yBtoDRate*j;	// j のピクセル位置をデータ座標で表す
 					while( !(data.GetY( dataYIndex ) <= y && y <= data.GetY( dataYIndex+1 )) )
 					{
 						dataYIndex++;
@@ -111,7 +108,7 @@ namespace Visualization
 					for( int i=0; i<width; i++ )
 					{
 						// bilinear interporation
-						double x = xRate*i;
+						double x = xBtoDRate*i;
 						while( !(data.GetX( dataXIndex ) <= x && x <= data.GetX( dataXIndex+1 )) )
 						{
 							dataXIndex++;
@@ -126,7 +123,7 @@ namespace Visualization
 
 						newValue = bilinearInterpolation( x0, x, x1, y0, y, y1, vx0y0, vx0y1, vx1y0, vx1y1 );
 
-						hue = (int)((newValue - min) / (max - min) * 360.0);
+						hue = (int)((newValue - min) / (max - min) * 359.0);
 						if( hue >= 360 ) hue = 359;
 						if( hue < 0 ) hue = 0;
 						bytes[index+0] = ColorBar.FromHue( hue ).B;

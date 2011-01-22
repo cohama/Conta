@@ -23,17 +23,13 @@ namespace Visualization
 			}
 			Graphics g = Graphics.FromImage( canvas.Bitmap );
 			Pen p = new Pen( Color.Black );
-			int originX = Visualize.BmpMargin;
-			int originY = canvas.Bitmap.Height - Visualize.BmpMargin - 1;
-			double unitX = (double)(canvas.Bitmap.Width - 2*Visualize.BmpMargin -1) / (data.GetX( data.Columns-1 ) - data.GetX( 0 ));
-			double unitY = (double)(canvas.Bitmap.Height- 2*Visualize.BmpMargin - 1) / (data.GetY( data.Rows-1 ) - data.GetY( 0 ));
+			g.DrawLine( p, 1, 1, 10, 10 );
 			for( int i=0; i<data.Columns; i++ )
 			{
 				for( int j=0; j<data.Rows; j++ )
 				{
-					int x = (int)(data.GetX( i )*unitX + 0.5);
-					int y = (int)(data.GetY( j )*unitY + 0.5);
-					g.DrawRectangle( p, originX + x - 1, originY - y -1, 2, 2 );
+					Point pt = canvas.AsBitmapCoord( data.GetX( i ), data.GetY( j ) );
+					g.DrawRectangle( p, pt.X - 1, pt.Y -1, 2, 2 );
 				}
 			}
 		}
