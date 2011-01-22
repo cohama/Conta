@@ -23,7 +23,6 @@ namespace Visualization
 			}
 			Graphics g = Graphics.FromImage( canvas.Bitmap );
 			Pen p = new Pen( Color.Black );
-			g.DrawLine( p, 1, 1, 10, 10 );
 			for( int i=0; i<data.Columns; i++ )
 			{
 				for( int j=0; j<data.Rows; j++ )
