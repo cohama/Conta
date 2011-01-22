@@ -14,8 +14,10 @@ namespace Visualization
 		private double[,] u;
 		private double[,] v;
 
-		public double GetX( int i ) { return x[i]; }
-		public double GetY( int j ) { return y[j]; }
+		public double GetX( int i ) { return x[i] / (x[Columns-1] - x[0]); }
+		public double GetRawX( int i ) { return x[i]; }
+		public double GetY( int j ) { return y[j] / (y[Rows-1] - y[0]); }
+		public double GetRawY( int j ) { return y[j]; }
 		public double GetZ( int i, int j ) { return z[i, j]; }
 		public double GetU( int i, int j ) { return u[i, j]; }
 		public double GetV( int i, int j ) { return v[i, j]; }
