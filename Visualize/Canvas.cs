@@ -26,6 +26,9 @@ namespace Visualization
 			this.resize( width, height, aspectRatio );
 		}
 
+		public int DrawingWidth { get { return this.Width - this.Setting.Margin.Left - this.Setting.Margin.Right; } }
+		public int DrawingHeight { get { return this.Height - this.Setting.Margin.Top - this.Setting.Margin.Bottom; } }
+
 		private void resize( int width, int height, double aspectRatio )
 		{
 			int w;
