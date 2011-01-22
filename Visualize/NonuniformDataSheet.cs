@@ -38,11 +38,6 @@ namespace Visualization
 
 		public NonuniformDataSheet()
 		{
-			this.MinZ = double.MaxValue;
-			this.MinVector = double.MaxValue;
-			this.MaxZ = double.MinValue;
-			this.MaxVector = double.MinValue;
-
 			this.XColumn = 1;
 			this.YColumn = 2;
 			this.ZColumn = 3;
@@ -57,6 +52,11 @@ namespace Visualization
 
 		private void initializeData( string filename )
 		{
+			this.MinZ = double.MaxValue;
+			this.MinVector = double.MaxValue;
+			this.MaxZ = double.MinValue;
+			this.MaxVector = double.MinValue;
+
 			this.FileName = filename;
 			string[] allLines = File.ReadAllLines( filename );
 			int commentOffset = 0;
