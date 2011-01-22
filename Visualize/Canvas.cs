@@ -21,6 +21,8 @@ namespace Visualization
 
 		public Canvas( int width, int height, double aspectRatio )
 		{
+			this.Setting = new ViewSetting();
+
 			this.resize( width, height, aspectRatio );
 		}
 
