@@ -174,6 +174,10 @@ namespace Visualization
 			{
 				this.HasVectorData = true;
 			}
+			else
+			{
+				this.HasVectorData = false;
+			}
 
 			// まず、x と y を算出する
 			for( int index=commentOffset; index<allLines.Length; index++ )
