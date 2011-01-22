@@ -32,6 +32,9 @@ namespace Visualization
 		public int Bottom;
 		public int Top;
 
+		public int Width { get { return this.Left + this.Right; } }
+		public int Height { get { return this.Top + this.Bottom; } }
+
 		public void SetAll( int value )
 		{
 			this.Left = this.Right = this.Bottom = this.Top = value;
@@ -66,7 +69,7 @@ namespace Visualization
 		public ViewSetting()
 		{
 			this.FieldSizeMode = Visualization.FieldSizeMode.Auto;
-			this.Margin = new Margin( 50 );
+			this.Margin = new Margin( 4, 8, 16, 32 );
 		}
 	}
 }
