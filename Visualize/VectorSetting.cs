@@ -118,6 +118,7 @@ namespace Visualization
 				this._length = value;
 			}
 		}
+
 		/// <summary>
 		/// ベクトルの矢印の大きさを取得、設定します。
 		/// </summary>
@@ -133,6 +134,7 @@ namespace Visualization
 				this._tipLength = value;
 			}
 		}
+
 		/// <summary>
 		/// ベクトルの矢印の先端の開き角を取得、設定します。
 		/// </summary>
@@ -162,10 +164,12 @@ namespace Visualization
 		/// ベクトルの色を値大きさによって変化させるかどうかを取得、設定します。
 		/// </summary>
 		public bool Colorful { get; set; }
+
 		/// <summary>
 		/// ベクトルの線の色を取得、設定します。
 		/// </summary>
 		public Color LineColor { get; set; }
+
 		/// <summary>
 		/// ベクトルの内部の色を取得、設定します。TipType プロパティが FillTriangle のときは値は反映されません。
 		/// </summary>
