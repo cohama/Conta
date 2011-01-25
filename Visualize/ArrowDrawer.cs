@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Visualization
 {
-	public class Drawer
+	public class ArrowDrawer
 	{
 		private struct ArrowComponents
 		{
@@ -28,11 +28,11 @@ namespace Visualization
 
 		delegate Color ColorSetter( double scr );
 		delegate ArrowComponents PointCalculator( PointF pt1, double u, double v, double tipSize );
-		delegate void ArrowDrawer( ArrowComponents points );
+		delegate void Drawer( ArrowComponents points );
 		ColorSetter innerColorSetter;
 		ColorSetter lineColorSetter;
 		PointCalculator pointCalculator;
-		ArrowDrawer arrowDrawer;
+		Drawer arrowDrawer;
 		Graphics G;
 		readonly double maxValue;
 		readonly double minValue;
@@ -51,7 +51,7 @@ namespace Visualization
 		/// <param name="g">グラフィックデバイス</param>
 		/// <param name="arrow">矢印の設定オブジェクト</param>
 		/// <param name="MaxValue">データの最大値</param>
-		public Drawer( Graphics g, VectorSetting arrow, double MaxValue, double MinValue )
+		public ArrowDrawer( Graphics g, VectorSetting arrow, double MaxValue, double MinValue )
 		{
 			this.Arrow = arrow;
 			this.G = g;

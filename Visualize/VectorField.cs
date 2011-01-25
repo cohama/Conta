@@ -51,7 +51,7 @@ namespace Visualization
 			Pen p = new Pen( Setting.LineColor );
 			Brush b = new SolidBrush( Setting.InnerColor );
 
-			Drawer d = new Drawer( g, this.Setting, data.MaxVector, data.MinVector );
+			ArrowDrawer d = new ArrowDrawer( g, this.Setting, data.MaxVector, data.MinVector );
 
 			int start = (this.Setting.Interval > 1) ? this.Setting.Offset : 0;
 			int step = this.Setting.Interval;

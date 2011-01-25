@@ -99,7 +99,7 @@ namespace Conta
 
 		private void pictureBoxPreview_Paint( object sender, PaintEventArgs e )
 		{
-			Drawer d = new Drawer( e.Graphics, this.previewSetting, 1.5, 0 );
+			ArrowDrawer d = new ArrowDrawer( e.Graphics, this.previewSetting, 1.5, 0 );
 			for( int i=0; i<4; i++ )
 			{
 				for( int j=0; j<2; j++ )

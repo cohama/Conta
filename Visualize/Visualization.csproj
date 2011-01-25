@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrowDrawer.cs" />
     <Compile Include="Canvas.cs" />
     <Compile Include="NonuniformDataSheet.cs" />
     <Compile Include="ContourSetting.cs" />
@@ -65,7 +66,6 @@
     <Compile Include="ColorBar.cs" />
     <Compile Include="ContourField.cs" />
     <Compile Include="DataSheet.cs" />
-    <Compile Include="Drawer.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="ViewSetting.cs" />
     <Compile Include="GridPointField.cs" />
