@@ -67,6 +67,16 @@ namespace Visualization
 		double MinZ { get; }
 
 		/// <summary>
+		/// ベクトルデータの最大長さを取得します。
+		/// </summary>
+		double MaxVector { get; }
+
+		/// <summary>
+		/// ベクトルデータの最小長さを取得します。
+		/// </summary>
+		double MinVector { get; }
+
+		/// <summary>
 		/// y 方向の格子点の数を取得します。
 		/// </summary>
 		int Rows { get; }

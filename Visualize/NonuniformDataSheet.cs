@@ -215,7 +215,7 @@ namespace Visualization
 						this.v[i, j] = v;
 						double length = Math.Sqrt( u*u + v*v );
 						if( this.MaxVector < length ) this.MaxVector = length;
-						if( this.MinVector < length ) this.MinVector = length;
+						if( this.MinVector > length ) this.MinVector = length;
 					}
 				}
 			}

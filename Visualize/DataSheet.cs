@@ -26,6 +26,10 @@ namespace Visualization
 		/// </summary>
 		public double MinZ { get; private set; }
 
+		public double MaxVector { get; private set; }
+
+		public double MinVector { get; private set; }
+
 		/// <summary>
 		/// データがベクトルデータを持っているかどうかを取得、設定します。
 		/// </summary>
@@ -87,7 +91,9 @@ namespace Visualization
 		public DataSheet( string fileName )
 		{
 			this.MaxZ = double.MinValue;
+			this.MaxVector = double.MinValue;
 			this.MinZ = double.MaxValue;
+			this.MinVector = double.MaxValue;
 
 			string[] allLines = File.ReadAllLines( fileName );
 			int commentOffset = 0;
@@ -132,8 +138,10 @@ namespace Visualization
 							this.scr[i, j] = dat;
 							this.u[i, j] = u;
 							this.v[i, j] = v;
-							if( length > this.MaxZ ) this.MaxZ = length;
-							if( length < this.MinZ ) this.MinZ = length;
+							if( dat > this.MaxZ ) this.MaxZ = dat;
+							if( dat < this.MinZ ) this.MinZ = dat;
+							if( dat > this.MaxVector ) this.MaxZ = length;
+							if( dat < this.MinVector ) this.MinZ = length;
 						}
 					}
 				}
