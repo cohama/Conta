@@ -45,6 +45,10 @@ namespace Conta
 
 		private void openFile()
 		{
+			if( this.filename == null )
+			{
+				return;
+			}
 			this.Text = Path.GetFileName( this.filename );
 			this.seek = new FileSeeker( this.filename );
 
@@ -64,13 +68,20 @@ namespace Conta
 				this.toolStripStatusLabel.Text = (this.vis.HasVectorData) ? "ベクトルデータ" : "スカラーデータ";
 				this.toolStripStatusLabel.Text += " (" + this.vis.I.ToString() + "x" + this.vis.J.ToString() + ")";
 			}
-			catch( FormatException ex )
+			catch( DataColumnNotFoundException ex )
 			{
-				this.toolStripStatusLabel.Text = "このファイルは読み込めませんでした。" + ex.Message;
+				this.toolStripStatusLabel.Text = ex.Message;
+			}
+			catch( FileCouldNotReadException ex )
+			{
+				this.toolStripStatusLabel.Text = ex.Message;
+				this.Text = this.Text + "(***)";
+				this.filename = null;
 			}
 			catch( Exception ex )
 			{
 				MessageBox.Show( ex.Message );
+				this.filename = null;
 			}
 		}
 

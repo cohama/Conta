@@ -87,7 +87,7 @@ namespace Visualization
 		/// テキストファイルから 2 次元配列データを作成します。
 		/// </summary>
 		/// <param name="fileName">読み込むファイルのフルパス名</param>
-		/// <exception cref="Visualization.DataFormatException">データフォーマットが不正の時に投げられます。</exception>
+		/// <exception cref="Visualization.DataColumnNotFoundException">データフォーマットが不正の時に投げられます。</exception>
 		public DataSheet( string fileName )
 		{
 			this.MaxZ = double.MinValue;
@@ -163,8 +163,8 @@ namespace Visualization
 					}
 				}
 			}
-			catch( FormatException fe ) { throw new DataFormatException( fileName, "フォーマットエラー", fe ); }
-			catch( IndexOutOfRangeException ie ) { throw new DataFormatException( fileName, "フォーマットエラー", ie ); }
+			catch( FormatException fe ) { throw new DataColumnNotFoundException( fileName, "フォーマットエラー", fe ); }
+			catch( IndexOutOfRangeException ie ) { throw new DataColumnNotFoundException( fileName, "フォーマットエラー", ie ); }
 		}
 	}
 }
