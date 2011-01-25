@@ -45,16 +45,13 @@ namespace Visualization
 			}
 			if( !this.Setting.IsLengthFixed )
 			{
-				this.Setting.ReferredLength = data.MaxZ;
+				this.Setting.ReferredLength = data.MaxVector;
 			}
 			Graphics g = Graphics.FromImage( bmp );
 			Pen p = new Pen( Setting.LineColor );
 			Brush b = new SolidBrush( Setting.InnerColor );
-			PointF origin = new PointF( (float)Visualize.BmpMargin, (float)Visualize.BmpMargin );
-			float unitX = (float)(bmp.Width - 2*Visualize.BmpMargin -1) / (data.Columns - 1);
-			float unitY = (float)(bmp.Height- 2*Visualize.BmpMargin -1) / (data.Rows - 1);
 
-			Drawer d = new Drawer( g, this.Setting, data.MaxZ, data.MinZ );
+			Drawer d = new Drawer( g, this.Setting, data.MaxVector, data.MinVector );
 
 			int start = (this.Setting.Interval > 1) ? this.Setting.Offset : 0;
 			int step = this.Setting.Interval;
@@ -85,7 +82,7 @@ namespace Visualization
 			{
 				foreach( var j in jSet )
 				{
-					SizeF pt1 = new SizeF( i*unitX, (data.Rows-1-j)*unitY );
+					Point pt = canvas.AsBitmapCoord( data.GetX( i ), data.GetY( j ) );
 					double u = data.GetU( i, j );
 					double v = data.GetV( i, j );
 					double len = Math.Sqrt( u*u + v*v );
