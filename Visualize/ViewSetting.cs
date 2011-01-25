@@ -69,7 +69,7 @@ namespace Visualization
 		public ViewSetting()
 		{
 			this.FieldSizeMode = Visualization.FieldSizeMode.Auto;
-			this.Margin = new Margin( 4, 8, 16, 32 );
+			this.Margin = new Margin( 50 );
 		}
 	}
 }

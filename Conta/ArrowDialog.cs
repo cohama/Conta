@@ -99,12 +99,14 @@ namespace Conta
 
 		private void pictureBoxPreview_Paint( object sender, PaintEventArgs e )
 		{
-			Drawer d = new Drawer( e.Graphics, this.previewSetting, 5F, 0F );
+			Drawer d = new Drawer( e.Graphics, this.previewSetting, 1.5, 0 );
 			for( int i=0; i<4; i++ )
 			{
 				for( int j=0; j<2; j++ )
 				{
-					d.DrawArrow( new PointF( i*70F+20F, 80F-j*40F ), 5F-1F*i-0.3F*j, 1, 0.25 );
+					double len = 1.5 - 0.3*i - 0.3*j;
+					double angle = Math.Atan2( 0.25, 1.0 );
+					d.DrawArrow( new PointF( i*70F+20F, 80F-j*40F ), len*Math.Cos( angle ), len*Math.Sin( angle ) );
 				}
 			}
 		}

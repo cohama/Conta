@@ -86,7 +86,7 @@ namespace Visualization
 					double u = data.GetU( i, j );
 					double v = data.GetV( i, j );
 					double len = Math.Sqrt( u*u + v*v );
-					d.DrawArrow( origin + pt1, len, u, v );
+					d.DrawArrow( pt, u, v );
 				}
 			}
 		}

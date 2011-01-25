@@ -8,11 +8,27 @@ namespace Visualization
 {
 	public class Drawer
 	{
+		private struct ArrowComponents
+		{
+			public PointF Zero;
+			public PointF Tip;
+			public PointF Left;
+			public PointF Right;
+
+			public ArrowComponents( PointF zero, PointF tip, PointF left, PointF right )
+			{
+				this.Zero = zero;
+				this.Tip = tip;
+				this.Left = left;
+				this.Right = right;
+			}
+		}
+
 		public VectorSetting Arrow { get; private set; }
 
 		delegate Color ColorSetter( double scr );
-		delegate void PointCalculator( PointF pt1, double scr, double u, double v, double size );
-		delegate void ArrowDrawer( PointF pt1, PointF centroid, PointF p1, PointF p2, PointF p3 );
+		delegate ArrowComponents PointCalculator( PointF pt1, double u, double v, double tipSize );
+		delegate void ArrowDrawer( ArrowComponents points );
 		ColorSetter innerColorSetter;
 		ColorSetter lineColorSetter;
 		PointCalculator pointCalculator;
@@ -82,11 +98,13 @@ namespace Visualization
 			}
 		}
 
-		public void DrawArrow( PointF pt1, double scr, double u, double v )
+		public void DrawArrow( PointF pt1, double u, double v )
 		{
+			double scr = Math.Sqrt( u*u + v*v );
 			this.innerBrush.Color = this.innerColorSetter( scr );
 			this.linePen.Color = this.lineColorSetter( scr );
-			this.pointCalculator( pt1, scr, u, v, scr*this.tipMagnitude );
+			ArrowComponents points = this.pointCalculator( pt1, u, v, scr*this.tipMagnitude );
+			this.arrowDrawer( points );
 		}
 
 		private Color setFixedBrushColor( double scr )
@@ -107,51 +125,46 @@ namespace Visualization
 			return ColorBar.FromHue( hue );
 		}
 
-		private void drawTrAnglArrow( PointF pt1, PointF centroid, PointF p1, PointF p2, PointF p3 )
+		private void drawTrAnglArrow( ArrowComponents pts )
 		{
-			G.DrawLine( this.linePen, pt1, centroid );
-			G.FillPolygon( this.innerBrush, new[] { p1, p2, p3 } );
-			G.DrawPolygon( this.linePen, new[] { p1, p2, p3 } );
+			G.DrawLine( this.linePen, pts.Zero, pts.Tip );
+			G.FillPolygon( this.innerBrush, new[] { pts.Tip, pts.Left, pts.Right } );
+			G.DrawPolygon( this.linePen, new[] { pts.Tip, pts.Left, pts.Right } );
 		}
 
-		private void drawLineArrow( PointF pt1, PointF centroid, PointF p1, PointF p2, PointF p3 )
+		private void drawLineArrow( ArrowComponents pts )
 		{
-			G.DrawLine( this.linePen, pt1, p1 );
-			G.DrawLine( this.linePen, p1, p2 );
-			G.DrawLine( this.linePen, p1, p3 );
+			G.DrawLine( this.linePen, pts.Zero, pts.Tip );
+			G.DrawLine( this.linePen, pts.Tip, pts.Left );
+			G.DrawLine( this.linePen, pts.Tip, pts.Right );
 		}
 
-		private void calcVarPoints( PointF pt1, double scr, double u, double v, double size )
+		private ArrowComponents calcVarPoints( PointF pt1, double u, double v, double tipSize )
 		{
-			double a = Math.Atan2( -v, u );
-			double x = scr * Math.Cos( a );
-			double y = - scr * Math.Sin( a );
+			double angle = Math.Atan2( -v, u );
+			double scr = Math.Sqrt( u*u + v*v );
+			double x = scr * Math.Cos( angle );
+			double y = - scr * Math.Sin( angle );
 			PointF centroid = new PointF( (float)(pt1.X + x*this.magnitude), (float)(pt1.Y - y*this.magnitude) );
 			PointF p1 = new PointF();
 			PointF p2 = new PointF();
 			PointF p3 = new PointF();
 
-			p1.X = (float)(centroid.X + 2.0/3.0*size*x/scr);
-			p1.Y = (float)(centroid.Y - 2.0/3.0*size*y/scr);
+			p1.X = (float)(centroid.X + 2.0/3.0*tipSize*x/scr);
+			p1.Y = (float)(centroid.Y - 2.0/3.0*tipSize*y/scr);
 
-			p2.X = (float)(p1.X - size/scr*(x - y*this.tan_halfTipAngle));
-			p2.Y = (float)(p1.Y - size/scr*(y + x*this.tan_halfTipAngle));
+			p2.X = (float)(p1.X - tipSize/Math.Cos( this.halfTipAngle )*Math.Cos( angle+this.halfTipAngle ));
+			p2.Y = (float)(p1.Y - tipSize/Math.Cos( this.halfTipAngle )*Math.Sin( angle+this.halfTipAngle ));
 
-			p3.X = (float)(p1.X - size/scr*(x + y*this.tan_halfTipAngle));
-			p3.Y = (float)(p1.X - size/scr*(-y + x*this.tan_halfTipAngle));
+			p3.X = (float)(p1.X - tipSize/Math.Cos( this.halfTipAngle )*Math.Cos( angle-this.halfTipAngle ));
+			p3.Y = (float)(p1.Y - tipSize/Math.Cos( this.halfTipAngle )*Math.Sin( angle-this.halfTipAngle ));
 
-			p2.X = (float)(p1.X - size/Math.Cos( this.halfTipAngle )*Math.Cos( a+this.halfTipAngle ));
-			p2.Y = (float)(p1.Y - size/Math.Cos( this.halfTipAngle )*Math.Sin( a+this.halfTipAngle ));
-
-			p3.X = (float)(p1.X - size/Math.Cos( this.halfTipAngle )*Math.Cos( a-this.halfTipAngle ));
-			p3.Y = (float)(p1.Y - size/Math.Cos( this.halfTipAngle )*Math.Sin( a-this.halfTipAngle ));
-
-			this.arrowDrawer( pt1, centroid, p1, p2, p3 );
+			return new ArrowComponents( pt1, p1, p2, p3 );
 		}
 
-		private void calcFixPoints( PointF pt1, double scr, double u, double v, double size )
+		private ArrowComponents calcFixPoints( PointF pt1, double u, double v, double tipSize )
 		{
-			calcVarPoints( pt1, scr, u, v, this.maxValue*tipMagnitude );
+			return calcVarPoints( pt1, u, v, this.maxValue*tipMagnitude );
 		}
 	}
 }
