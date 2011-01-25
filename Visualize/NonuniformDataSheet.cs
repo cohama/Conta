@@ -56,6 +56,7 @@ namespace Visualization
 			this.MinVector = double.MaxValue;
 			this.MaxZ = double.MinValue;
 			this.MaxVector = double.MinValue;
+			this.HasVectorData = false;
 
 			this.FileName = filename;
 			string[] allLines = File.ReadAllLines( filename );
@@ -83,6 +84,11 @@ namespace Visualization
 			string[] firstLineParts = splitToData( firstLine );
 			string[] lastLineParts  = splitToData( lastLine );
 
+			if( firstLineParts.Length < 3 )
+			{
+				throw new FileCouldNotReadException( "このファイルは読み込めませんでした。" );
+			}
+
 			if( firstLineParts.Length >= this.UColumn
 			 && firstLineParts.Length >= this.VColumn )
 			{
@@ -108,10 +114,10 @@ namespace Visualization
 			}
 			catch( IndexOutOfRangeException ex )
 			{
-				string message = "指定されたデータ列は存在しません。\r\n"
+				string message = "指定されたデータ列は存在しません。"
 					+ firstLineParts.Length
 					+ " までの数値を指定してください。";
-				throw new DataFormatException( this.FileName, message, ex );
+				throw new DataColumnNotFoundException( this.FileName, message, ex );
 			}
 
 			int columns = lastX + 1 - firstX;
@@ -173,10 +179,6 @@ namespace Visualization
 			 && firstLineParts.Length >= this.VColumn )
 			{
 				this.HasVectorData = true;
-			}
-			else
-			{
-				this.HasVectorData = false;
 			}
 
 			// まず、x と y を算出する
