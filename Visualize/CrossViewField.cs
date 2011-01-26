@@ -36,32 +36,31 @@ namespace Visualization
 
 			Graphics g = Graphics.FromImage( bmp );
 
-			int mgn = Visualize.BmpMargin;
-			double unitX = (double)(bmp.Width - 2*Visualize.BmpMargin - 1) / (data.Columns - 1);
-			double unitY = (double)(bmp.Height- 2*Visualize.BmpMargin - 1) / (data.Rows - 1);
-
 			SolidBrush plotBlush = new SolidBrush( Setting.PlotColor );
 			Pen plotPen = new Pen( Setting.PlotFrameColor );
 			Pen linePen = new Pen( Setting.LineColor, Setting.LineWidth );
 			Pen axisPen = new Pen( Setting.AxisColor, Setting.AxisWidth );
 
-			g.DrawRectangle( axisPen, mgn, mgn, bmp.Width-2*mgn-1, bmp.Height-2*mgn-1 );
+			Point lefttop = canvas.AsBitmapCoord( 0, 1 );
+			Point rightbottom = canvas.AsBitmapCoord( 1, 0 );
+			
+			g.DrawRectangle( axisPen, lefttop.X, lefttop.Y, canvas.DrawingWidth, canvas.DrawingHeight );
 
 			if( Setting.ReferenceI >= data.Columns ) Setting.ReferenceI = data.Columns - 1;
 			if( Setting.ReferenceJ >= data.Rows ) Setting.ReferenceJ = data.Rows - 1;
 
 			if( this.Setting.Horizontal )
 			{
-				int y = (int)(bmp.Height - 2*mgn - 1 - Setting.ReferenceJ*unitY + 0.5);
-				g.DrawLine( axisPen, mgn, mgn+y, bmp.Width-mgn-1, mgn+y );
+				double refY = data.GetY( this.Setting.ReferenceJ );
+				g.DrawLine( axisPen, canvas.AsBitmapCoord( 0, refY ), canvas.AsBitmapCoord( 1, refY ) );
 				Point[] pt = new Point[data.Columns];
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetV ) 
 																	: new Func<int, int, double>( data.GetZ );
 				for( int i=0; i<data.Columns; i++ )
 				{
 					int h = (int)(value( i, Setting.ReferenceJ )/this.Setting.ReferredLength*Setting.Scale + 0.5);
-					int x = (int)(i*unitX + 0.5);
-					pt[i] = new Point( mgn+x, mgn+y-h ); 
+					Point gridPt = canvas.AsBitmapCoord( data.GetX( i ), refY );
+					pt[i] = new Point( gridPt.X, gridPt.Y-h ); 
 				}
 				g.DrawLines( linePen, pt );
 				int s = Setting.PlotSize;
@@ -74,16 +73,16 @@ namespace Visualization
 			}
 			if( this.Setting.Vertical )
 			{
-				int x = (int)(Setting.ReferenceI*unitX + 0.5);
-				g.DrawLine( axisPen, mgn + x, mgn, mgn + x, bmp.Height - mgn );
+				double refX = data.GetX( this.Setting.ReferenceI );
+				g.DrawLine( axisPen, canvas.AsBitmapCoord( refX, 0 ), canvas.AsBitmapCoord( refX, 1 ) );
 				Point[] pt = new Point[data.Rows];
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetU ) 
-																	: new Func<int, int, double>( data.GetZ );
+			                                                        : new Func<int, int, double>( data.GetZ );
 				for( int j=0; j<data.Rows; j++ )
 				{
 					int h = (int)(value( Setting.ReferenceI, j )/this.Setting.ReferredLength*Setting.Scale + 0.5);
-					int y = (int)(bmp.Height - 2*mgn - 1 - j*unitY + 0.5);
-					pt[j] = new Point( mgn+x+h, mgn+y );
+					Point gridPt = canvas.AsBitmapCoord( refX, data.GetY( j ) );
+					pt[j] = new Point( gridPt.X+h, gridPt.Y );
 				}
 				g.DrawLines( linePen, pt );
 				int s = Setting.PlotSize;
@@ -93,8 +92,6 @@ namespace Visualization
 					g.DrawEllipse( plotPen, pt[i].X - s/2, pt[i].Y - s/2, s, s );
 				}
 			}
-
-
 		}
 	}
 }
