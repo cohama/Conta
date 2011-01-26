@@ -53,18 +53,20 @@ namespace Visualization
 			{
 				double refY = data.GetY( this.Setting.ReferenceJ );
 				g.DrawLine( axisPen, canvas.AsBitmapCoord( 0, refY ), canvas.AsBitmapCoord( 1, refY ) );
-				Point[] pt = new Point[data.Columns];
+				List<Point> pt = new List<Point>();
+				pt.Add( canvas.AsBitmapCoord( 0, refY ) );
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetV ) 
 																	: new Func<int, int, double>( data.GetZ );
 				for( int i=0; i<data.Columns; i++ )
 				{
 					int h = (int)(value( i, Setting.ReferenceJ )/this.Setting.ReferredLength*Setting.Scale + 0.5);
 					Point gridPt = canvas.AsBitmapCoord( data.GetX( i ), refY );
-					pt[i] = new Point( gridPt.X, gridPt.Y-h ); 
+					pt.Add( new Point( gridPt.X, gridPt.Y-h ) );
 				}
-				g.DrawLines( linePen, pt );
+				pt.Add( canvas.AsBitmapCoord( 1, refY ) );
+				g.DrawLines( linePen, pt.ToArray() );
 				int s = Setting.PlotSize;
-				for( int i=0; i<data.Columns; i++ )
+				for( int i=1; i<pt.Count-1; i++ )
 				{
 					g.FillEllipse( plotBlush, pt[i].X - s/2, pt[i].Y - s/2, s, s );
 					g.DrawEllipse( plotPen, pt[i].X - s/2, pt[i].Y - s/2, s, s );
@@ -75,18 +77,20 @@ namespace Visualization
 			{
 				double refX = data.GetX( this.Setting.ReferenceI );
 				g.DrawLine( axisPen, canvas.AsBitmapCoord( refX, 0 ), canvas.AsBitmapCoord( refX, 1 ) );
-				Point[] pt = new Point[data.Rows];
+				List<Point> pt = new List<Point>();
+				pt.Add( canvas.AsBitmapCoord( refX, 0 ) );
 				Func<int, int, double> value = (Setting.VectorMode)	? new Func<int, int, double>( data.GetU ) 
 			                                                        : new Func<int, int, double>( data.GetZ );
 				for( int j=0; j<data.Rows; j++ )
 				{
 					int h = (int)(value( Setting.ReferenceI, j )/this.Setting.ReferredLength*Setting.Scale + 0.5);
 					Point gridPt = canvas.AsBitmapCoord( refX, data.GetY( j ) );
-					pt[j] = new Point( gridPt.X+h, gridPt.Y );
+					pt.Add( new Point( gridPt.X+h, gridPt.Y ) );
 				}
-				g.DrawLines( linePen, pt );
+				pt.Add( canvas.AsBitmapCoord( refX, 1 ) );
+				g.DrawLines( linePen, pt.ToArray() );
 				int s = Setting.PlotSize;
-				for( int i=0; i<data.Rows; i++ )
+				for( int i=1; i<pt.Count-1; i++ )
 				{
 					g.FillEllipse( plotBlush, pt[i].X - s/2, pt[i].Y - s/2, s, s );
 					g.DrawEllipse( plotPen, pt[i].X - s/2, pt[i].Y - s/2, s, s );
